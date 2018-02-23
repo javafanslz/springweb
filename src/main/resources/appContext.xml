@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+>
+    <bean id="carL" class="com.channelsoft.springweb.bean.Car" scope="prototype">
+        <property name="name">
+            <value>假的劳斯莱斯</value>
+        </property>
+        <property name="speed">
+            <value>1000</value>
+        </property>
+    </bean>
+
+    <bean id="boss" class="com.channelsoft.springweb.bean.BossCar" autowire="byType">
+    </bean>
+
+    <bean id="mergeBean" class="com.channelsoft.springweb.bean.MergeCollection">
+        <property name="set">
+            <set>
+                <value>李柱1</value>
+                <value>李柱2</value>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="mergeBeanChild" class="com.channelsoft.springweb.bean.MergeBeanChild" parent="mergeBean">
+        <property name="set">
+            <set merge="default">
+                <value>李柱3</value>
+            </set>
+        </property>
+    </bean>
+
+
+</beans>

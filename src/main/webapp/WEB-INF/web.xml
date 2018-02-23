@@ -4,12 +4,43 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <!--可配置的类-->
+  <!--<context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>/WEB-INF/classes/applicationContext.xml</param-value>
+    <param-value>com.channelsoft.springweb.bean.ConfigBean</param-value>
+  </context-param>-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml</param-value>
   </context-param>
+  <context-param>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>/WEB-INF/classes/log4j.properties</param-value>
+  </context-param>
+  <!--和容器的版本有关系   2.3及以上可以使用listener-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+  </listener>
   <listener>
     <listener-class>com.channelsoft.springweb.webapplication.WebApplicationContextTest</listener-class>
   </listener>
+
+
+ <!-- <servlet>
+    <servlet-name>contextLoaderServlet</servlet-name>
+    <servlet-class>org.springframework.web.context.ContextLoader</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>contextLoaderServlet</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>-->
   
 </web-app>
