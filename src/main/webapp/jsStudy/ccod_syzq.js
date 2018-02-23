@@ -213,13 +213,14 @@ function SYZQ(){
                 return false;
             }
         }
+        return true;
     };
     /**
      * 终端需求中校验
      * 三个必选其一
      */
     SYZQ.prototype.validateZD = function(){
-        if(!($("#field0037").is("checked")||$("#field0038").is(":checked")||$("#field0161").is(":checked"))){
+        if(!($("#field0037").is(":checked")||$("#field0038").is(":checked")||$("#field0161").is(":checked"))){
             alert("终端需求中必须选择一个终端类型");
             return false;
         }
