@@ -2,9 +2,9 @@ $(document).ready(function() {
     try {
         var title = $("#subject").val();
         if (title && title.indexOf("试用工单-联通") != -1) {
-            var sylz = new SYLT();
-            qnObjs.sylz = sylz;
-            sylz.initPage();
+            var sylt = new SYLT();
+            qnObjs.sylt = sylt;
+            sylt.initPage();
         }
     } catch (e) {
         // alert("SYSL_ready:"+e);
@@ -15,7 +15,7 @@ $(document).ready(function() {
  * @constructor
  */
 function SYLT(){
-    var _sylz = this;
+    var _sylt = this;
     SYLT.prototype.initPage = function() {
         try{
             this.initTrObjs();
@@ -36,17 +36,17 @@ function SYLT(){
      * 初始化不可用组件
      */
     SYLT.prototype.initDisableComps = function() {
-        $.each(_sylz.elements, function(key, val) {
+        $.each(_sylt.elements, function(key, val) {
             if(val && val.initDisable){
                 if(val.type =='radio'){
                     var _radios = $("input[name="+key+"]");
                     $.each(_radios,function(key,value){
-                        _sylz.disableComp($(this), true);
+                        _sylt.disableComp($(this), true);
                     });
                 }else{
                     var elem = $("#" + val.id);
                     if(elem.length == 1){
-                        _sylz.disableComp(elem, true);
+                        _sylt.disableComp(elem, true);
                     }
                 }
             }
@@ -67,17 +67,17 @@ function SYLT(){
      * 绑定事件
      */
     SYLT.prototype.bindEvent = function() {
-        $.each(_sylz.events,function(key,val){
-            if(_sylz.elements[key].type=="radio" || _sylz.elements[key].type=="checkbox"){
+        $.each(_sylt.events,function(key,val){
+            if(_sylt.elements[key].type=="radio" || _sylt.elements[key].type=="checkbox"){
                 var elem = eval($('input[name='+key+']'));
-                var func = eval("_sylz.constructor.prototype."+val.func);
+                var func = eval("_sylt.constructor.prototype."+val.func);
                 elem.each(function(){
-                    var func = eval("_sylz.constructor.prototype."+val.func);
+                    var func = eval("_sylt.constructor.prototype."+val.func);
                     $(this).bind(val.event,func);
                 });
             }else {
                 var elem = $("#" + key);
-                var func = eval("_sylz.constructor.prototype."+val.func);
+                var func = eval("_sylt.constructor.prototype."+val.func);
                 elem.bind(val.event,func);
             }
         });
@@ -87,8 +87,8 @@ function SYLT(){
      * @param fireObjID
      */
     SYLT.prototype.changeOtherCompsState = function(fireObjID) {
-        var obj = _sylz.elements[fireObjID];
-        var objs = _sylz.relations[fireObjID];
+        var obj = _sylt.elements[fireObjID];
+        var objs = _sylt.relations[fireObjID];
 
         if(!(obj && objs)){
             return ;
@@ -126,16 +126,22 @@ function SYLT(){
      * @returns {boolean}
      */
     SYLT.prototype.validate = function(){
-        if(!_sylz.validateOutNum()){
+        if(!_sylt.validateAccessNum()){
             return false;
         }
-        if(!_sylz.validateOtherText()){
+        if(!_sylt.validateAgentTel()){
             return false;
         }
-        if(!_sylz.validateZD()){
+        if(!_sylt.validateOutNum()){
             return false;
         }
-        if(!_sylz.validateAgentTel()){
+        if(!_sylt.validate_JFnumber()){
+            return false;
+        }
+        if(!_sylt.validateZD()){
+            return false;
+        }
+        if(!_sylt.validateOtherText()){
             return false;
         }
         return true;
@@ -155,9 +161,9 @@ function SYLT(){
         var yz_outNum3 = $("#field0144").val();
 
 
-        var isPhoneNum = (yz_outNum1=='')?true:_sylz.until_valiPhoneNum(yz_outNum1);
-        isPhoneNum = isPhoneNum && ((yz_outNum2=='')?true:_sylz.until_valiPhoneNum(yz_outNum2));
-        isPhoneNum = isPhoneNum && ((yz_outNum3=='')?true:_sylz.until_valiPhoneNum(yz_outNum3));
+        var isPhoneNum = (yz_outNum1=='')?true:_sylt.until_valiPhoneNum(yz_outNum1);
+        isPhoneNum = isPhoneNum && ((yz_outNum2=='')?true:_sylt.until_valiPhoneNum(yz_outNum2));
+        isPhoneNum = isPhoneNum && ((yz_outNum3=='')?true:_sylt.until_valiPhoneNum(yz_outNum3));
 
         if(!isPhoneNum){
             alert("【外显号码】电话格式不正确，请重新填写。");
@@ -169,15 +175,7 @@ function SYLT(){
         var attachmentChilds = attachment.children();
         //外显号与附件不能同时存在
         if((outNum1.val() != '' || outNum2.val() != '' || outNum3.val() != '') && attachmentChilds.length!=0){
-            alert("外显号码及附件不能同时上传，请选择其中一项后再次上传！");
-            return false;
-        }
-        //反馈结果
-        var attachment1 = $("#field0123_span").children(":first").next();
-        var attachmentChilds1 = attachment1.children();
-        //填写了外显号或者上传了附件之后 得上传外显结果
-        if(( outNum1.val() != '' || outNum2.val() != '' || outNum3.val() != '' || attachmentChilds.length!=0)&&attachmentChilds1.length ==0){
-            alert("请上传外显反馈结果");
+            alert("【外显号码】外显号码及附件不能同时上传，请选择其中一项后再次上传！");
             return false;
         }
         return true;
@@ -206,13 +204,14 @@ function SYLT(){
                 }
             }
         }
+        return true;
     };
     /**
      * 终端需求中校验
-     * 三个必选其一
+     * 二个必选其一
      */
     SYLT.prototype.validateZD = function(){
-        if(!($("#field0037").is("checked")||$("#field0038").is(":checked"))){
+        if(!($("#field0037").is(":checked")||$("#field0038").is(":checked"))){
             alert("终端需求中必须选择一个终端类型");
             return false;
         }
@@ -220,12 +219,12 @@ function SYLT(){
         var value = $("input[name=field0035]:checked").attr("value");
         var zdxq = $("input[name=field0039]:checked").attr("value");
         if(value != null) {
-            if (value == "-8035373081964597131") {//客+
+            /*if (value == "-8035373081964597131") {//客+
                 if (zdxq != "3911880719776501017") {//选择客+ 终端需求应该选择js
                     alert("业务需求中选择【客+】，有终端应该选择【JS】");
                     return false;
                 }
-            }
+            }*/
             if(value == "-8429465311877512806" || value == "-9150741835358384558"){ //选择客服通或电销通
                 if(zdxq != "-5010749408830733596"){
                     alert("当选择客服通或这电销通时，有终端应该选择【ADT】");
@@ -240,20 +239,19 @@ function SYLT(){
      */
     SYLT.prototype.validateAgentTel = function(){
         if(!($("#field0145").is(":checked")||$("#field0146").is(":checked"))){
-            alert("必须选择坐席电话中一个选项");
+            alert("【坐席电话】必须选择坐席电话中一个选项");
             return false;
         }
-        return true;
         //填写坐席号码不能超过70字符  与上传附件不能同时填写
         if($("#field0147").val() != "" && $("#field0147").val().length > 70 ){
-            alert("坐席号码不能超多70个字符");
+            alert("【坐席电话】坐席号码不能超多70个字符");
             return false;
         }
         //坐席号码附件
         var agentTel = $("#field0023_span").children(":first").next();
         var agentTelChilds = agentTel.children();
         if(agentTelChilds.length !=0 && $("#field0147").val() != "" ){
-            alert("坐席电话和附件不能同时输入");
+            alert("【坐席电话】坐席电话和附件不能同时输入");
             return false;
         }
         //联通上传邮件
@@ -263,6 +261,58 @@ function SYLT(){
             alert("请上传联通信息");
             return false;
         }
+        return true;
+    };
+
+    /**
+     * 平台接入号校验  填写或者上传附件必填其一
+     */
+    SYLT.prototype.validateAccessNum = function(){
+        var accessNum = $("#field0136").val();
+        //平台接入号附件
+        var attachment = $("#field0022_span").children(":first").next();
+        var attachmentChilds = attachment.children();
+        if(accessNum != ''){
+            if(!_sylt.until_valiPhoneNum(accessNum)){
+                alert("【平台接入号】接入号码必须为为5-16为数字");
+                return false;
+            }
+        }
+        if(accessNum == '' && attachmentChilds.length == 0) {
+            alert("【平台接入号】必须填写一项");
+            return false;
+        }
+        if(accessNum != '' && attachmentChilds.length != 0){
+            alert("【平台接入号】填写接入号与上传附件只能选择一项");
+            return false;
+        }
+        return true;
+    };
+    /**
+     * 缴费号码
+     * @returns {boolean}
+     */
+    SYLT.prototype.validate_JFnumber = function() {
+        var hrsh1 =$("#field0024").val();
+        var hrct1 =$("#field0025").val();
+        var hrsh2 =$("#field0026").val();
+        var hrct2 =$("#field0027").val();
+        var yyfwf =$("#field0028").val();
+
+        var isPhoneNum = (hrsh1=='')?true:this.until_valiJfNum(hrsh1);
+        isPhoneNum = isPhoneNum && ((hrct1=='')?true:this.until_valiJfNum(hrct1));
+        isPhoneNum = isPhoneNum && ((hrsh2=='')?true:this.until_valiJfNum(hrsh2));
+        isPhoneNum = isPhoneNum && ((hrct2=='')?true:this.until_valiJfNum(hrct2));
+        isPhoneNum = isPhoneNum && ((yyfwf=='')?true:this.until_valiJfNum(yyfwf));
+
+
+        if(!isPhoneNum){
+            alert("【缴费号码】电话格式不正确，请重新填写。");
+            $(":contains('缴费号码')").parents("td").css("color","red");
+            $("#field0024").focus();
+            return false;
+        }
+        $(":contains('缴费号码')").parents("td").css("color","black");
         return true;
     };
 
@@ -276,15 +326,15 @@ function SYLT(){
     SYLT.prototype.ywxt = function(){
         var value = $("input[name=field0035]:checked").attr("value");
         var zdxq = $("input[name=field0039]");
-        if(value == "-2683795712946518790"){//其他
+        if(value == "-5891212324087446913"){//其他
             $("#field0036").attr("disabled",false);
         }else{
             $("#field0036").val("");
             $("#field0036").attr("disabled",true);
         }
-        if(value == "-8429465311877512806" || value == "-9150741835358384558"){ //选择客服通或电销通
+        if(value == "6404582267989804173" || value == "9013198972058747339"){ //选择客服通或电销通
             $.each(zdxq,function(key,val){
-                if(val.value == "-5010749408830733596"){
+                if(val.value == "-4305093821079142156"){
                     $(this).attr("checked",true);
                 }
             });
@@ -301,18 +351,11 @@ function SYLT(){
             //当有终端中有选中的时候 有终端的多选框要选中
             $("#field0037").attr("checked", true);
         }
-        if (value == "5567501390920437337") {//其他
+        if (value == "-1122618658103079534") {//其他
             $("#field0040").attr("disabled", false);
         } else {
             $("#field0040").val("");
             $("#field0040").attr("disabled", true);
-        }
-        //终端需求其他
-        if ($("#field0161").is(":checked")) {
-            $("#field0162").attr("disabled", false);
-        } else {
-            $("#field0162").val("");
-            $("#field0162").attr("disabled", true);
         }
     };
 
@@ -351,9 +394,9 @@ function SYLT(){
      */
     SYLT.prototype.relations = function(){
         //业务系统
-        _sylz.ywxt();
+        _sylt.ywxt();
         //终端需求
-        _sylz.zdxq();
+        _sylt.zdxq();
     };
     /**
      *元素的初始化信息
@@ -361,89 +404,17 @@ function SYLT(){
     SYLT.prototype.elements = {
         "field0036":{id : "field0036",	type : "text",name : "业务系统其它",initDisable:true},
         "field0040":{id : "field0040",	type : "text",name : "有终端其它",initDisable:true},
-        "field0162":{id : "field0162",	type : "text",name : "终端需求其它",initDisable:true},
         "field0017":{id : "field0017",	type : "text",name : "所属平台",initDisable:true},
         "field0037":{id : "field0037",	type : "checkbox",name : "有终端"},
-        "field0161":{id : "field0161",	type : "checkbox",name : "有终端其他"},
         "field0035":{id : "field0035",	type : "radio",		name : "客服通", 		value:"-5951425570627761360"},
         "field0035":{id : "field0035",	type : "radio",		name : "电销通",		value:"6193382351362802577"},
         "field0035":{id : "field0035",	type : "radio",		name : "不配置",		value:"7221839946071951327"},
         "field0035":{id : "field0035",	type : "radio",		name : "其他",		value:"3288302870514713075"},
-        "field0039":{id : "field0039",	type : "radio",		name : "JS", 		value:"3911880719776501017"},
-        "field0039":{id : "field0039",	type : "radio",		name : "CCEA",		value:"1883269994569024117"},
-        "field0039":{id : "field0039",	type : "radio",		name : "ADT",		value:"-5010749408830733596"},
-        "field0039":{id : "field0039",	type : "radio",		name : "OCX",		value:"-567094536524971470"},
-        "field0039":{id : "field0039",	type : "radio",		name : "其它",		value:"5567501390920437337"}
+        "field0039":{id : "field0039",	type : "radio",		name : "CCEA",		value:"8254392202341730514"},
+        "field0039":{id : "field0039",	type : "radio",		name : "ADT",		value:"-4305093821079142156"},
+        "field0039":{id : "field0039",	type : "radio",		name : "OCX",		value:"-7530274332352494683"},
+        "field0039":{id : "field0039",	type : "radio",		name : "其它",		value:"-1122618658103079534"}
     };
-    /**
-     *初始化关系
-     */
-  /*  SYLT.prototype.relations = {
-        "field0035" : {//业务系统其它
-            "-2683795712946518790" : {
-                "value" : "-2683795712946518790",
-                "checked" : {
-                    "field0036" : {id : "field0036",attrs:{disabled:false}}
-                },
-                "unchecked" : {
-                    "field0036" : {id : "field0036",attrs:{disabled:true,"value":''}}
-                }
-            },
-            "8035373081964597131" : {//客+
-                "value" : "8035373081964597131",
-                "checked" : {
-                    "field0039" :{
-                        "3911880719776501017": {
-                            id : "field0039",attrs:{checked:true}
-                        }
-                    }
-                }
-            }
-        },
-        "field0039":{//有终端其它
-            "5567501390920437337" : {
-                "value" : "5567501390920437337",
-                "checked" : {
-                    "field0040" : {id : "field0040",attrs:{disabled:false}},
-                    "field0037" : {id : "field0037",attrs:{checked:true}}
-                },
-                "unchecked" : {
-                    "field0040" : {id : "field0040",attrs:{disabled:true,"value":''}}
-                }
-            }
-        },
-        "field0161":{//终端需求其它
-            checked : {
-                "field0162" : {id : "field0162",attrs:{"disabled" : false}}
-            },
-            unchecked :{
-                "field0162" : {id : "field0162",attrs:{"disabled" : true}}
-            }
-        },
-    };*/
-
-   /* SYLT.prototype.initRelations = {
-        "field0146":{
-            checked : {
-                "field0139" : {id : "field0139",attrs:{"disabled" : false}},
-                "field0140" : {id : "field0140",attrs:{"disabled" : false}},
-                "field0141" : {id : "field0141",attrs:{"disabled" : false}},
-
-                "field0147" : {id : "field0147",attrs:{"disabled" : false}},
-                "field0148" : {id : "field0148",attrs:{"disabled" : false}},
-                "field0149" : {id : "field0149",attrs:{"disabled" : false}}
-            },
-            unchecked :{
-                "field0139" : {id : "field0139",attrs:{"disabled" : true,"value":''}},
-                "field0140" : {id : "field0140",attrs:{"disabled" : true,"value":''}},
-                "field0141" : {id : "field0141",attrs:{"disabled" : true,"value":''}},
-
-                "field0147" : {id : "field0147",attrs:{"disabled" : true,"value":''}},
-                "field0148" : {id : "field0148",attrs:{"disabled" : true,"value":''}},
-                "field0149" : {id : "field0149",attrs:{"disabled" : true,"value":''}}
-            }
-        }
-    };*/
     SYLT.prototype.validateRela= {
         // REQUIRED:[R 必填项] [NR 不必填] [RC 有条件的必填项] [COMS 需要组件]
         "field0040":{
@@ -486,5 +457,4 @@ function SYLT(){
         }
         return isPhoneNum;
     };
-
 }

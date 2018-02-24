@@ -59,7 +59,9 @@ function qnValidate() {
 		valiResult = qnObjs.sxjf.validate();
 	} else if (title.indexOf("试用工单-直签") != -1 && qnObjs.syzq) {
 		valiResult = qnObjs.syzq.validate();
-	} else if (title.indexOf("平台迁移单") != -1 && qnObjs.ptqy) {
+	}else if(title.indexOf("试用工单-联通")!= -1 && qnObjs.sylt){
+		valiResult = qnObjs.sylt.validate();
+	}else if (title.indexOf("平台迁移单") != -1 && qnObjs.ptqy) {
 		valiResult = qnObjs.ptqy.validate();
 	} else if (title.indexOf("延期工单") != -1 && qnObjs.ywyq) {
 		valiResult = qnObjs.ywyq.validate();

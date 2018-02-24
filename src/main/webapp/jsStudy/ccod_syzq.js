@@ -169,7 +169,7 @@ function SYZQ(){
         var attachmentChilds = attachment.children();
         //外显号与附件不能同时存在
         if((outNum1.val() != '' || outNum2.val() != '' || outNum3.val() != '') && attachmentChilds.length!=0){
-            alert("外显号码及附件不能同时上传，请选择其中一项后再次上传！");
+            alert("【外显号码】外显号码及附件不能同时上传，请选择其中一项后再次上传！");
             return false;
         }
         //反馈结果
@@ -177,7 +177,7 @@ function SYZQ(){
         var attachmentChilds1 = attachment1.children();
         //填写了外显号或者上传了附件之后 得上传外显结果
         if(( outNum1.val() != '' || outNum2.val() != '' || outNum3.val() != '' || attachmentChilds.length!=0)&&attachmentChilds1.length ==0){
-            alert("请上传外显反馈结果");
+            alert("【外显号码】请上传外显反馈结果");
             return false;
         }
         return true;
@@ -221,7 +221,7 @@ function SYZQ(){
      */
     SYZQ.prototype.validateZD = function(){
         if(!($("#field0037").is(":checked")||$("#field0038").is(":checked")||$("#field0161").is(":checked"))){
-            alert("终端需求中必须选择一个终端类型");
+            alert("【终端需求】终端需求中必须选择一个终端类型");
             return false;
         }
         //校验业务系统和有终端之间的关联关系
@@ -248,20 +248,19 @@ function SYZQ(){
      */
     SYZQ.prototype.validateAgentTel = function(){
         if(!($("#field0145").is(":checked")||$("#field0146").is(":checked")||$("#field0166").is(":checked"))){
-            alert("必须选择坐席电话中一个选项");
+            alert("【坐席电话】必须选择坐席电话中一个选项");
             return false;
         }
-        return true;
         //填写坐席号码不能超过70字符  与上传附件不能同时填写
         if($("#field0147").val() != "" && $("#field0147").val().length > 70 ){
-            alert("坐席号码不能超多70个字符");
+            alert("【坐席电话】坐席号码不能超多70个字符");
             return false;
         }
         //坐席号码附件
         var agentTel = $("#field0023_span").children(":first").next();
         var agentTelChilds = agentTel.children();
         if(agentTelChilds.length !=0 && $("#field0147").val() != "" ){
-            alert("坐席电话和附件不能同时输入");
+            alert("【坐席电话】坐席电话和附件不能同时输入");
             return false;
         }
         return true;
