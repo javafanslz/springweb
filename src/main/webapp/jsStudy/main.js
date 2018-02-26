@@ -63,9 +63,11 @@ function qnValidate() {
 		valiResult = qnObjs.sylt.validate();
 	}else if (title.indexOf("平台迁移单") != -1 && qnObjs.ptqy) {
 		valiResult = qnObjs.ptqy.validate();
-	} else if (title.indexOf("延期工单-直签") != -1 && qnObjs.ywyq) {
+	} else if (title.indexOf("延期工单-直签") != -1 && qnObjs.yqzq) {
 		valiResult = qnObjs.yqzq.validate();
-	} else if (title.indexOf("状态变更单") != -1 && qnObjs.ywztbg) {
+	}else if (title.indexOf("延期工单-联通") != -1 && qnObjs.yqlt) {
+        valiResult = qnObjs.yqlt.validate();
+    }  else if (title.indexOf("状态变更单") != -1 && qnObjs.ywztbg) {
 		valiResult = qnObjs.ywztbg.validate();
 	} else if (title.indexOf("业务变更单") != -1 && qnObjs.ywbg) {
 		valiResult = qnObjs.ywbg.validate();
