@@ -18,6 +18,7 @@ import java.lang.reflect.Proxy;
 public class TestProxyForumService {
     public static void main(String[] args){
         ForumService forumService = new ForumServiceImpl();
+        System.out.println(forumService.getClass().getInterfaces()[0].getName());
         PerformanceHandler handler = new PerformanceHandler(forumService);
         ForumService proxy = (ForumService) Proxy.newProxyInstance(forumService.getClass().getClassLoader(),forumService.getClass().getInterfaces(),handler);
         proxy.removeForum(101010);

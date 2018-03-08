@@ -3,6 +3,7 @@ package com.channelsoft.springweb.webapplication;
 import com.channelsoft.springweb.bean.*;
 import com.channelsoft.springweb.bean.definition.Boss;
 import com.channelsoft.springweb.event.MailSender;
+import com.channelsoft.springweb.proxy.spring.Waiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -39,7 +40,7 @@ public class WebApplicationContextTest  implements ServletContextListener{
        /* System.out.println(car.toString());*/
         AbstractApplicationContext abstractApplicationContext;
 
-        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("aopConfig.xml");
 
        /* ApplicationContext applicationContext = new ClassPathXmlApplicationContext(new String[]{"appContext.xml"},classPathXmlApplicationContext);
 
@@ -50,8 +51,11 @@ public class WebApplicationContextTest  implements ServletContextListener{
         /**
          * 事件监听器
          */
-        MailSender m = (MailSender) classPathXmlApplicationContext.getBean("mailSender");
-        m.sendMail("李柱");
+     /*   MailSender m = (MailSender) classPathXmlApplicationContext.getBean("mailSender");
+        m.sendMail("李柱");*/
+        Waiter waiter = (Waiter) classPathXmlApplicationContext.getBean("waiter");
+        waiter.greet("lalal");
+
 
 
     }

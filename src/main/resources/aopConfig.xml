@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd
+
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+>
+    <import resource="appTask.xml"></import>
+    <bean id ="target" class="com.channelsoft.springweb.proxy.spring.NaiverWaiter"></bean>
+    <bean id = "advice" class="com.channelsoft.springweb.proxy.spring.WaiterBeforeAdvice"></bean>
+    <bean id="waiter" class="org.springframework.aop.framework.ProxyFactoryBean"
+                        p:proxyInterfaces="com.channelsoft.springweb.proxy.spring.Waiter"
+                        p:interceptorNames="advice"
+                        p:target-ref="target"
+    />
+
+    <bean id="aopWaiter" class="com.channelsoft.springweb.proxy.aop.Waiter"/>
+    <bean id="aopSeller" class="com.channelsoft.springweb.proxy.aop.Seller"/>
+    <bean id="greetingAdvice" class="com.channelsoft.springweb.proxy.aop.GreetingBeforeAdvice"/>
+    <bean id="greetAdvisor" class="com.channelsoft.springweb.proxy.aop.GreetingAdvisor"
+          p:advice-ref="greetingAdvice"
+    />
+
+    <bean id="parent" abstract="true" class="org.springframework.aop.framework.ProxyFactoryBean"
+        p:interceptorNames="greetAdvisor"
+          p:proxyTargetClass="true"
+    />
+    <bean id="waiterAop" parent="parent"
+        p:target-ref="aopWaiter"
+    />
+    <bean id="sellerAop" parent="parent"
+          p:target-ref="aopSeller"
+    />
+
+
+</beans>

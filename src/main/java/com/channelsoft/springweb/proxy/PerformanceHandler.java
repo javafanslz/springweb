@@ -24,6 +24,12 @@ public class PerformanceHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        Method[] m = proxy.getClass().getMethods();
+        System.out.println(proxy.getClass().getName());
+      /*  for(Method method1:m){
+            System.out.println(method1.getModifiers());
+            System.out.println(method1.getName());
+        }*/
         PerformanceMonitor.begin(target.getClass().getName()+"."+method.getName());
         Object obj = method.invoke(target,args);
         PerformanceMonitor.end();

@@ -15,25 +15,25 @@ public class ForumServiceImpl implements ForumService{
 
     @Override
     public void removeTopic(int topicId){
-        PerformanceMonitor.begin("removeTopic");
+       // PerformanceMonitor.begin("removeTopic");
         System.out.println("模拟删除topic"+topicId);
         try{
             Thread.sleep(20);
         }catch (Exception e){
             System.out.println("失败");
         }
-        PerformanceMonitor.end();
+        //PerformanceMonitor.end();
     }
 
     @Override
     public void removeForum(int forumId){
-        PerformanceMonitor.begin("removeForum");
+       // PerformanceMonitor.begin("removeForum");
         System.out.println("模拟删除forumId"+forumId);
         try{
             Thread.sleep(40);
         }catch (Exception e){
             System.out.println("失败");
         }
-        PerformanceMonitor.end();
+      //  PerformanceMonitor.end();
     }
 }

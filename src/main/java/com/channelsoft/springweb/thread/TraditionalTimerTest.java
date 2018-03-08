@@ -3,10 +3,7 @@ package com.channelsoft.springweb.thread;
 import com.channelsoft.springweb.bean.Car;
 
 import java.awt.*;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * @Author: lizhu
@@ -15,9 +12,19 @@ import java.util.TimerTask;
  */
 public class TraditionalTimerTest {
     public static void main(String[] args){
-       new Timer().schedule(new MyTask(),2000);
+       //new Timer().schedule(new MyTask(),2000);
      //  Calendar calendar = Calendar.getInstance();
       // calendar.setTime(new Date());
+        new Timer().scheduleAtFixedRate(new MyTimerTask2(),1000,10);
+        Integer[] i = new Integer[2];
+        i[0] = 1;
+        i[1] = 2;
+
+        i = Arrays.copyOf(i,2*i.length);
+        for(Integer integer:i){
+            System.out.println(integer);
+        }
+
     }
 }
 
@@ -32,5 +39,25 @@ class MyTask extends TimerTask{
         new Timer(){
 
         }.schedule(new MyTask(),2000+2000*count);
+    }
+}
+
+
+/**
+ * 验证TimerTask周期内没有执行完的策略
+ */
+class MyTimerTask2 extends  TimerTask{
+    private static int times = 0;
+
+    @Override
+    public void run() {
+       // int randomInt = new Random().nextInt();
+        ++times;
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(times+"次的秒数"+ Calendar.getInstance().get(Calendar.SECOND));
     }
 }
