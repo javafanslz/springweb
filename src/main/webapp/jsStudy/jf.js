@@ -1020,9 +1020,9 @@ function SXJF() {
      */
     SXJF.prototype.radiocheck = function (){
         $(":radio").each(function (){
-            if($(this).val()!=-3963605101769899438 && $(this).val()!=-1244957151022398219
-                && $(this).val()!=1621254934994570452 && $(this).val()!=-1449570944700694416
-                && $(this).val()!=3288302870514713075){
+            if($(this).val()!=-'3963605101769899438' && $(this).val()!='-1244957151022398219'
+                && $(this).val()!='1621254934994570452' && $(this).val()!='-1449570944700694416'
+                && $(this).val()!='3288302870514713075'){
                 $(this).attr('cs',false);
 
                 $(this).click(function(arg1){

@@ -55,8 +55,8 @@ function qnValidate() {
 	var valiResult = true;
 	var title = $("#subject").val();
 
-	if (title.indexOf("上线计费") != -1 && qnObjs.sxjf) {
-		valiResult = qnObjs.sxjf.validate();
+	if (title.indexOf("上线计费工单-联通") != -1 && qnObjs.jflt) {
+		valiResult = qnObjs.jflt.validate();
 	} else if (title.indexOf("试用工单-直签") != -1 && qnObjs.syzq) {
 		valiResult = qnObjs.syzq.validate();
 	}else if(title.indexOf("试用工单-联通")!= -1 && qnObjs.sylt){
