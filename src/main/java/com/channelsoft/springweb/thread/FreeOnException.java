@@ -56,6 +56,13 @@ class ThreadA extends Thread{
 
     @Override
     public void run(){
+
+
+
+
+
+
+
         service.testMethod();
     }
 }
