@@ -9,7 +9,8 @@ import java.util.Random;
  * <dd>Company: 青牛（北京）技术有限公司</dd>
  * <dd>CreateDate:2018/3/5</dd>
  * </dl>
- *
+ *ThreadLocal
+ * 把变量绑定到当前线程，使得每个线程中的变量为本线程共享
  * @author lizhu
  */
 public class ThreadLocalTest {
