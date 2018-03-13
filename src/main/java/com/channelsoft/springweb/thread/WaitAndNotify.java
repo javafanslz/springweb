@@ -9,6 +9,8 @@ package com.channelsoft.springweb.thread;
  * <dd>CreateDate:2018/3/12</dd>
  * </dl>
  *
+ * wait()之后会立即释放锁
+ * notify()会等同步代码块执行完才会释放锁
  * @author lizhu
  */
 public class WaitAndNotify {
