@@ -176,7 +176,7 @@ function QYLT() {
 	QYLT.prototype.until_valiPhoneNum = function (tel) {
 		var isPhoneNum = false;
 		// 手机正则表达式
-		var mp_reg = /^(\(\d{3,4}\)|\d{3,4}|\s)?\d{5,16}$/;
+		var mp_reg = /^\d{5,16}$/;
 		if (mp_reg.test(tel)) {
 			isPhoneNum = true;
 		}
@@ -185,7 +185,7 @@ function QYLT() {
 	QYLT.prototype.until_valiJfNum = function(tel) {  //缴费号码
 		var isPhoneNum = false;
 		// 手机正则表达式
-		var mp_reg = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{10,14}$/;
+		var mp_reg = /^\d{10,14}$/;
 		if (mp_reg.test(tel)) {
 			isPhoneNum = true;
 		}

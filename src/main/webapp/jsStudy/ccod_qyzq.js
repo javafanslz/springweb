@@ -20,10 +20,16 @@ function QYZQ() {
 	// 初始化页面的方法
 	QYZQ.prototype.initPage = function(pageType) {
 		try {
+			this.initTrObjs();
 			this.disableObj();
 			this.eventMouseSSPTTR();
 		} catch (e) {
 		}
+	};
+
+	QYZQ.prototype.initTrObjs = function() {
+		$("#field0040").css('background','#CCFFCC');//平台接入号
+		$("#field0043_span").css('background','#CCFFCC');//接入号邮件
 	};
 
 	QYZQ.prototype.disableObj = function() {
@@ -181,7 +187,7 @@ function QYZQ() {
 	QYZQ.prototype.until_valiPhoneNum = function (tel) {
 		var isPhoneNum = false;
 		// 手机正则表达式
-		var mp_reg = /^(\(\d{3,4}\)|\d{3,4}|\s)?\d{5,16}$/;
+		var mp_reg = /^\d{5,16}$/;
 		if (mp_reg.test(tel)) {
 			isPhoneNum = true;
 		}
@@ -190,7 +196,7 @@ function QYZQ() {
 	QYZQ.prototype.until_valiJfNum = function(tel) {  //缴费号码
 		var isPhoneNum = false;
 		// 手机正则表达式
-		var mp_reg = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{10,14}$/;
+		var mp_reg = /^\d{10,14}$/;
 		if (mp_reg.test(tel)) {
 			isPhoneNum = true;
 		}

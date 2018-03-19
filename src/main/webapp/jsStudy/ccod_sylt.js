@@ -30,7 +30,7 @@ function SYLT(){
      * 初始化 tr
      */
     SYLT.prototype.initTrObjs = function() {
-
+        $("#field0009").css('background','#FCDD8B');//企业id
     };
     /**
      * 初始化不可用组件
@@ -126,6 +126,9 @@ function SYLT(){
      * @returns {boolean}
      */
     SYLT.prototype.validate = function(){
+        if(!_sylt.validateEntId()){
+            return false;
+        }
         if(!_sylt.validateAccessNum()){
             return false;
         }
@@ -212,7 +215,7 @@ function SYLT(){
      */
     SYLT.prototype.validateZD = function(){
         if(!($("#field0037").is(":checked")||$("#field0038").is(":checked"))){
-            alert("终端需求中必须选择一个终端类型");
+            alert("【终端需求】终端需求中必须选择一个终端类型");
             return false;
         }
         //校验业务系统和有终端之间的关联关系
@@ -227,9 +230,16 @@ function SYLT(){
             }*/
             if(value == "-8429465311877512806" || value == "-9150741835358384558"){ //选择客服通或电销通
                 if(zdxq != "-5010749408830733596"){
-                    alert("当选择客服通或这电销通时，有终端应该选择【ADT】");
+                    alert("【终端需求】当选择客服通或这电销通时，有终端应该选择【ADT】");
                     return false;
                 }
+            }
+        }
+
+        if($("#field0037").is(":checked")){
+            if(typeof(zdxq)=="undefined"){
+                alert("【终端需求】勾选了有终端，需要勾选后面的具体选项！");
+                return false;
             }
         }
         return true;
@@ -261,6 +271,20 @@ function SYLT(){
             alert("请上传联通信息");
             return false;
         }
+        return true;
+    };
+
+    /**
+     * 企业id必填
+     */
+    SYLT.prototype.validateEntId = function(){
+        var entId = $("#field0009").val();
+        if(entId == '' ){
+            alert("【企业ID】企业id为必填项");
+            $("#field0009").focus();
+            return false;
+        }
+
         return true;
     };
 
@@ -307,7 +331,7 @@ function SYLT(){
 
 
         if(!isPhoneNum){
-            alert("【缴费号码】电话格式不正确，请重新填写。");
+            alert("【缴费号码】缴费号码应为10-14为数字，请重新填写。");
             $(":contains('缴费号码')").parents("td").css("color","red");
             $("#field0024").focus();
             return false;
@@ -320,25 +344,26 @@ function SYLT(){
     /**
      * 业务系统类型联动关系
      * 选择其他 _后面不能填写
-     * 选择客+ 终端需求自动选择js
      *
      */
     SYLT.prototype.ywxt = function(){
         var value = $("input[name=field0035]:checked").attr("value");
-        var zdxq = $("input[name=field0039]");
+        //var zdxq = $("input[name=field0039]");
         if(value == "-5891212324087446913"){//其他
             $("#field0036").attr("disabled",false);
+            $("#field0036").css('background','#FCDD8B');
         }else{
             $("#field0036").val("");
             $("#field0036").attr("disabled",true);
+            $("#field0036").css('background','');//人工服务基本服务费折扣单价
         }
-        if(value == "6404582267989804173" || value == "9013198972058747339"){ //选择客服通或电销通
+      /*  if(value == "6404582267989804173" || value == "9013198972058747339"){ //选择客服通或电销通
             $.each(zdxq,function(key,val){
                 if(val.value == "-4305093821079142156"){
                     $(this).attr("checked",true);
                 }
             });
-        }
+        }*/
     };
     /**
      * 终端需求联动关系
@@ -347,15 +372,17 @@ function SYLT(){
      */
     SYLT.prototype.zdxq = function(){
         var value = $("input[name=field0039]:checked").attr("value");
-        if(value != null){
+        if(value != null && typeof(value)!="undefined"){
             //当有终端中有选中的时候 有终端的多选框要选中
             $("#field0037").attr("checked", true);
         }
         if (value == "-1122618658103079534") {//其他
             $("#field0040").attr("disabled", false);
+            $("#field0040").css('background','#FCDD8B');
         } else {
             $("#field0040").val("");
             $("#field0040").attr("disabled", true);
+            $("#field0040").css('background','');
         }
     };
 
@@ -442,7 +469,7 @@ function SYLT(){
     SYLT.prototype.until_valiPhoneNum = function(tel) {
         var isPhoneNum = false;
         // 手机正则表达式
-        var mp_reg = /^(\(\d{3,4}\)|\d{3,4}|\s)?\d{5,16}$/;
+        var mp_reg = /^\d{5,16}$/;
         if (mp_reg.test(tel)) {
             isPhoneNum = true;
         }
@@ -451,7 +478,7 @@ function SYLT(){
     SYLT.prototype.until_valiJfNum = function(tel) { // 缴费号码
         var isPhoneNum = false;
         // 手机正则表达式
-        var mp_reg = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{10,14}$/;
+        var mp_reg = /^\d{10,14}$/;
         if (mp_reg.test(tel)) {
             isPhoneNum = true;
         }

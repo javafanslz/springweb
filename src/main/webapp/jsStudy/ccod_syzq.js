@@ -30,7 +30,6 @@ function SYZQ(){
      * 初始化 tr
      */
     SYZQ.prototype.initTrObjs = function() {
-
     };
     /**
      * 初始化不可用组件
@@ -126,6 +125,12 @@ function SYZQ(){
      * @returns {boolean}
      */
     SYZQ.prototype.validate = function(){
+        if(!_syzq.validatePT()){
+            return false;
+        }
+        if(!_syzq.validate_JFnumber()){
+           return false;
+        }
         if(!_syzq.validateOutNum()){
             return false;
         }
@@ -138,6 +143,36 @@ function SYZQ(){
         if(!_syzq.validateAgentTel()){
             return false;
         }
+        return true;
+    };
+    /**
+     * 平台校验
+     * @returns {boolean}
+     */
+    SYZQ.prototype.validatePT =function(){
+        var ptType = $("#field0016").html();
+        if(ptType == '联通合作运营平台'){
+            alert("【平台类型】直签试用工单不能选择联通合作平台");
+            return false;
+        }
+        return true;
+    };
+
+    /**
+     * 缴费号码
+     * @returns {boolean}
+     */
+    SYZQ.prototype.validate_JFnumber = function() {
+        var hrsh1 =$("#field0024").val();
+        var isPhoneNum = (hrsh1=='')?true:this.until_valiJfNum(hrsh1);
+
+        if(!isPhoneNum){
+            alert("【缴费号码】缴费号码应为10-14为数字，请重新填写。");
+            $(":contains('缴费号码')").parents("td").css("color","red");
+            $("#field0024").focus();
+            return false;
+        }
+        $(":contains('缴费号码')").parents("td").css("color","black");
         return true;
     };
 
@@ -229,6 +264,11 @@ function SYZQ(){
         var zdxq = $("input[name=field0039]:checked").attr("value");
         if(value != null) {
             if (value == "-8035373081964597131") {//客+
+                var pingtai = $("#field0017").val();
+                if(pingtai.indexOf("CCOD4.5平台") == -1){//不是ccod4.5平台 不能选择客+
+                    alert("【业务系统类型】不是4.5平台不能选择客+");
+                    return false;
+                }
                 if (zdxq != "3911880719776501017") {//选择客+ 终端需求应该选择js
                     alert("业务需求中选择【客+】，有终端应该选择【JS】");
                     return false;
@@ -239,6 +279,12 @@ function SYZQ(){
                     alert("当选择客服通或这电销通时，有终端应该选择【ADT】");
                     return false;
                 }
+            }
+        }
+        if($("#field0037").is(":checked")){
+            if(typeof(zdxq)=="undefined"){
+                alert("【终端需求】勾选了有终端，需要勾选后面的具体选项！");
+                return false;
             }
         }
         return true;
@@ -278,11 +324,17 @@ function SYZQ(){
         var zdxq = $("input[name=field0039]");
         if(value == "-2683795712946518790"){//其他
             $("#field0036").attr("disabled",false);
+            $("#field0036").css('background','#FCDD8B');
         }else{
             $("#field0036").val("");
             $("#field0036").attr("disabled",true);
+            $("#field0036").css('background','');
         }
         if(value == "8035373081964597131"){//客+
+            var pingtai = $("#field0017").val();
+            if(pingtai.indexOf("CCOD4.5平台") == -1){//不是ccod4.5平台 不能选择客+
+                alert("【业务系统类型】不是4.5平台不能选择客+");
+            }
             $.each(zdxq,function(key,val){
                 if(val.value == "3911880719776501017"){
                     $(this).attr("checked",true);
@@ -310,16 +362,20 @@ function SYZQ(){
         }
         if (value == "5567501390920437337") {//其他
             $("#field0040").attr("disabled", false);
+            $("#field0040").css('background','#FCDD8B');
         } else {
             $("#field0040").val("");
             $("#field0040").attr("disabled", true);
+            $("#field0040").css('background','');
         }
         //终端需求其他
         if ($("#field0161").is(":checked")) {
             $("#field0162").attr("disabled", false);
+            $("#field0162").css('background','#FCDD8B');
         } else {
             $("#field0162").val("");
             $("#field0162").attr("disabled", true);
+            $("#field0162").css('background','');
         }
     };
 
@@ -351,6 +407,9 @@ function SYZQ(){
             }else{
                 $("#field0017").attr("disabled",true);
             }
+            if(ptType == '联通合作运营平台'){
+                alert("【平台类型】直签试用工单不能选择联通合作平台");
+            }
             var pingtai = $("#field0017").val();
             if(pingtai.indexOf("CCOD4.5平台") != -1){
                 //客+ 文本机器人
@@ -362,6 +421,11 @@ function SYZQ(){
                 $("#field0163").attr("disabled",false);
                 $("#field0164").attr("disabled",false);
                 $("#field0165").attr("disabled",false);
+
+                //终端需求 无终端需要不可选择
+                $("#field0038").attr("disabled",true);
+                $("#field0038").attr("checked",false);
+
             }else{
                 //客+ 文本机器人
                 $("#field0159").attr("disabled",true);
@@ -372,6 +436,8 @@ function SYZQ(){
                 $("#field0163").attr("disabled",true);
                 $("#field0164").attr("disabled",true);
                 $("#field0165").attr("disabled",true);
+                //终端需求 无终端需要不可选择
+                $("#field0038").attr("disabled",false);
             }
         });
     };
@@ -410,75 +476,7 @@ function SYZQ(){
         "field0039":{id : "field0039",	type : "radio",		name : "OCX",		value:"-567094536524971470"},
         "field0039":{id : "field0039",	type : "radio",		name : "其它",		value:"5567501390920437337"}
     };
-    /**
-     *初始化关系
-     */
-  /*  SYZQ.prototype.relations = {
-        "field0035" : {//业务系统其它
-            "-2683795712946518790" : {
-                "value" : "-2683795712946518790",
-                "checked" : {
-                    "field0036" : {id : "field0036",attrs:{disabled:false}}
-                },
-                "unchecked" : {
-                    "field0036" : {id : "field0036",attrs:{disabled:true,"value":''}}
-                }
-            },
-            "8035373081964597131" : {//客+
-                "value" : "8035373081964597131",
-                "checked" : {
-                    "field0039" :{
-                        "3911880719776501017": {
-                            id : "field0039",attrs:{checked:true}
-                        }
-                    }
-                }
-            }
-        },
-        "field0039":{//有终端其它
-            "5567501390920437337" : {
-                "value" : "5567501390920437337",
-                "checked" : {
-                    "field0040" : {id : "field0040",attrs:{disabled:false}},
-                    "field0037" : {id : "field0037",attrs:{checked:true}}
-                },
-                "unchecked" : {
-                    "field0040" : {id : "field0040",attrs:{disabled:true,"value":''}}
-                }
-            }
-        },
-        "field0161":{//终端需求其它
-            checked : {
-                "field0162" : {id : "field0162",attrs:{"disabled" : false}}
-            },
-            unchecked :{
-                "field0162" : {id : "field0162",attrs:{"disabled" : true}}
-            }
-        },
-    };*/
 
-   /* SYZQ.prototype.initRelations = {
-        "field0146":{
-            checked : {
-                "field0139" : {id : "field0139",attrs:{"disabled" : false}},
-                "field0140" : {id : "field0140",attrs:{"disabled" : false}},
-                "field0141" : {id : "field0141",attrs:{"disabled" : false}},
-
-                "field0147" : {id : "field0147",attrs:{"disabled" : false}},
-                "field0148" : {id : "field0148",attrs:{"disabled" : false}},
-                "field0149" : {id : "field0149",attrs:{"disabled" : false}}
-            },
-            unchecked :{
-                "field0139" : {id : "field0139",attrs:{"disabled" : true,"value":''}},
-                "field0140" : {id : "field0140",attrs:{"disabled" : true,"value":''}},
-                "field0141" : {id : "field0141",attrs:{"disabled" : true,"value":''}},
-
-                "field0147" : {id : "field0147",attrs:{"disabled" : true,"value":''}},
-                "field0148" : {id : "field0148",attrs:{"disabled" : true,"value":''}},
-                "field0149" : {id : "field0149",attrs:{"disabled" : true,"value":''}}
-            }
-        }
-    };*/
     SYZQ.prototype.validateRela= {
         // REQUIRED:[R 必填项] [NR 不必填] [RC 有条件的必填项] [COMS 需要组件]
         "field0040":{
@@ -506,7 +504,7 @@ function SYZQ(){
     SYZQ.prototype.until_valiPhoneNum = function(tel) {
         var isPhoneNum = false;
         // 手机正则表达式
-        var mp_reg = /^(\(\d{3,4}\)|\d{3,4}|\s)?\d{5,16}$/;
+        var mp_reg = /^\d{5,16}$/;
         if (mp_reg.test(tel)) {
             isPhoneNum = true;
         }
@@ -515,7 +513,7 @@ function SYZQ(){
     SYZQ.prototype.until_valiJfNum = function(tel) { // 缴费号码
         var isPhoneNum = false;
         // 手机正则表达式
-        var mp_reg = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{10,14}$/;
+        var mp_reg = /^\d{10,14}$/;
         if (mp_reg.test(tel)) {
             isPhoneNum = true;
         }
