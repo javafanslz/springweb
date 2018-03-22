@@ -21,6 +21,7 @@ function YQLT() {
     YQLT.prototype.initPage = function(pageType) {
         try {
             this.initDisableComps();
+            this.eventMouseSSPTTR();
             //$("#field0004").attr("disabled",true);
             //	$("#field0030")
             $(".xdLayout").bind("mouseover",function(){
@@ -29,7 +30,13 @@ function YQLT() {
         } catch (e) {
         }
     };
-
+    YQLT.prototype.eventMouseSSPTTR = function(){
+        var shptr = $("#field0008").parents("table");
+        shptr.mouseleave(function(){
+            //校验平台和选择的企业之间的关系
+            _yqlt.validatePlatform();
+        });
+    };
     YQLT.prototype.initDisableComps = function() {
         $.each(_yqlt.elements, function(key, val) {
             if(val && val.initDisable){
@@ -118,6 +125,9 @@ function YQLT() {
         if(!_yqlt.validate_YQEmail()){
             return false;
         }
+        if(!_yqlt.validatePlatform()){
+            return false;
+        }
         return true;
     };
 
@@ -136,6 +146,27 @@ function YQLT() {
             return false;
         }
 
+        return true;
+    };
+
+    YQLT.prototype.validatePlatform =function(){
+        //field0017
+        var platForm = $("#field0016").html();
+        var title = $("#subject").val();
+        if(platForm != "" && typeof(platForm)!="undefined"){
+            if(title.indexOf("直签")!= -1){
+                if(platForm.indexOf("联通合作客户") !=-1){
+                    alert("直签工单不能选择联通合作客户");
+                    return false;
+                }
+            }
+            if(title.indexOf("联通")!= -1){
+                if(platForm.indexOf("联通合作客户") ==-1){
+                    alert("联通工单只能选择联通合作客户");
+                    return false;
+                }
+            }
+        }
         return true;
     };
 

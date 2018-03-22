@@ -23,6 +23,7 @@ function YQZQ() {
             this.initDisableComps();
             //$("#field0004").attr("disabled",true);
             //	$("#field0030")
+            this.eventMouseSSPTTR();
             $(".xdLayout").bind("mouseover",function(){
                 _yqzq.loadData();
             });
@@ -52,6 +53,13 @@ function YQZQ() {
             return;
         }
         elem.attr("disabled", val);
+    };
+    YQZQ.prototype.eventMouseSSPTTR = function(){
+        var shptr = $("#field0008").parents("table");
+        shptr.mouseleave(function(){
+            //校验平台和选择的企业之间的关系
+            _yqzq.validatePlatform();
+        });
     };
     YQZQ.prototype.loadData = function(){
         // subID = "0000061388";
@@ -114,12 +122,35 @@ function YQZQ() {
 
     YQZQ.prototype.validate = function() {
         _yqzq.loadData();
+        if(!_yqzq.validatePlatform()){
+            return false;
+        }
 
       /*  if(!_yqzq.validate_YQEmail()){
             return false;
         }*/
         return true;
-    }
+    };
+    YQZQ.prototype.validatePlatform =function(){
+        //field0017
+        var platForm = $("#field0016").html();
+        var title = $("#subject").val();
+        if(platForm != "" && typeof(platForm)!="undefined"){
+            if(title.indexOf("直签")!= -1){
+                if(platForm.indexOf("联通合作客户") !=-1){
+                    alert("直签工单不能选择联通合作客户");
+                    return false;
+                }
+            }
+            if(title.indexOf("联通")!= -1){
+                if(platForm.indexOf("联通合作客户") ==-1){
+                    alert("联通工单只能选择联通合作客户");
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
 
     //验证联通客户必选上传延期邮件
     //延期错误

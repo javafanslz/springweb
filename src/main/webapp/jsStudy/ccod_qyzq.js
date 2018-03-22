@@ -62,6 +62,7 @@ function QYZQ() {
 	 * 当平台类型为未验收的时候所属平台可以输入
 	 * 当所属平台是ccod4.5平台的  坐席功能变为可选否则不可选
 	 * 试用数量中不可选择变为选择
+	 * 校验关系添加一个 直签工单只能选择直签的企业  联通的工单只能选择联通的企业
 	 */
 	QYZQ.prototype.eventMouseSSPTTR = function(){
 		var shptr = $("#field0039").parents("table");
@@ -73,6 +74,7 @@ function QYZQ() {
 			}else{
 				$("#field0039").attr("disabled",true);
 			}
+			//ccod4.5平台
 			var pingtai = $("#field0039").val();
 			if(pingtai.indexOf("CCOD4.5平台") != -1){
 			/*	//原平台客+ 文本机器人
@@ -97,6 +99,8 @@ function QYZQ() {
 				//新平台坐席无终端
 				$("#field0054").attr("disabled",false);
 			}
+			//校验选择的企业和工单类型是否匹配
+			_qyzq.validatePlatform();
 		});
 	};
 
@@ -105,6 +109,10 @@ function QYZQ() {
 			return false;
 		}
 		if (!_qyzq.validate_NewJFNumber()) {
+			return false;
+		}
+		//联通工单只能选择联通企业  直签工单只能选择直签企业
+		if(!_qyzq.validatePlatform()){
 			return false;
 		}
 		return true;
@@ -122,6 +130,30 @@ function QYZQ() {
 			return false;
 		}
 		$(":contains('缴费号码')").parents("td").css("color","black");
+		return true;
+	};
+
+	/**
+	 * 校验联通工单中不能选择非联通企业，直签不能选择非直签企业
+	 */
+	QYZQ.prototype.validatePlatform =function(){
+		//field0017
+		var platForm = $("#field0017").html();
+		var title = $("#subject").val();
+		if(platForm != "" && typeof(platForm)!="undefined"){
+			if(title.indexOf("直签")!= -1){
+				if(platForm.indexOf("联通合作客户") !=-1){
+					alert("直签工单不能选择联通合作客户");
+					return false;
+				}
+			}
+			if(title.indexOf("联通")!= -1){
+				if(platForm.indexOf("联通合作客户") ==-1){
+					alert("联通工单只能选择联通合作客户");
+					return false;
+				}
+			}
+		}
 		return true;
 	};
 

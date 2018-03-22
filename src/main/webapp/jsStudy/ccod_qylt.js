@@ -61,6 +61,9 @@ function QYLT() {
 		if (!_qylt.validate_NewJFNumber()) {
 			return false;
 		}
+		if(!_qylt.validatePlatform()){
+			return false;
+		}
 		return true;
 	};
 	
@@ -113,6 +116,27 @@ function QYLT() {
 		return true;
 	};
 
+	QYLT.prototype.validatePlatform =function(){
+		//field0017
+		var platForm = $("#field0017").html();
+		var title = $("#subject").val();
+		if(platForm != "" && typeof(platForm)!="undefined"){
+			if(title.indexOf("直签")!= -1){
+				if(platForm.indexOf("联通合作客户") !=-1){
+					alert("直签工单不能选择联通合作客户");
+					return false;
+				}
+			}
+			if(title.indexOf("联通")!= -1){
+				if(platForm.indexOf("联通合作客户") ==-1){
+					alert("联通工单只能选择联通合作客户");
+					return false;
+				}
+			}
+		}
+		return true;
+	};
+
 	/**
 	 * 所属平台和各个控件之间的关系
 	 * 当平台类型为未验收的时候所属平台可以输入
@@ -127,6 +151,8 @@ function QYLT() {
 			}else{
 				$("#field0039").attr("disabled",true);
 			}
+			//校验平台和选择的企业之间的关系
+			_qylt.validatePlatform();
 		});
 	};
 	
