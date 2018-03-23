@@ -1,0 +1,50 @@
+1、read和write方法在执行时都会被阻塞 直至有字节被读入或者写出
+available方法使我们可以去检查可用于读入字节的数量
+  InputStream inputStream = new FileInputStream(new File(""));
+            int i = inputStream.available();
+            if(i>0){
+               byte[]  data = new byte[inputStream.available()];
+                inputStream.read();
+            }
+2、当完成读写的时候应该调用close方法来关闭他，这个方法会释放资源，关闭输入流的同时
+            会清空缓存区，所有置于缓存区的文件都会被输出，如果不关闭文件，最后一个包永远
+            都不会被输出。也可以使用flush方法。
+3、read方法
+                Reads some number of bytes from the input stream and stores them into
+                 * the buffer array The number of bytes actually read is
+                 * returned as an integer.
+                 读取给定字节数组长度的字节然后写进数组中
+                 当文件特别大的时候，应采用while循环，避免内存溢出
+4、try-with-resource    * @since 1.7
+            当实现了AutoCloseable接口之后，使用try-with-resource语句可以自动关闭
+             This method is invoked automatically on objects managed by the
+              * {@code try}-with-resources statement.
+              demo:
+              static String readFirstLineFromFile(String path) throws IOException {
+                  try (BufferedReader br =
+                                 new BufferedReader(new FileReader(path))) {
+                      return br.readLine();
+                  }
+              }
+              demo2
+               try (Connection connection = DriverManager.getConnection(URL, USER_NAME, PASSWORD); PreparedStatement preparedStatement = connection.prepareStatement(SQL); ResultSet resultSet = preparedStatement.executeQuery();) {
+
+                          if (resultSet.next()) {
+                              System.out.println(resultSet.getObject(1)+" : "+resultSet.getObject(2));
+                          }
+                      } catch (Exception e) {
+                          e.printStackTrace();
+                      }
+                出现try-with-resource的原因是为了简化关闭资源的步骤。
+5、装饰者模式
+装饰者模式主要解决的问题是，多功能组合的时候，继承带来的冗余问题。
+    demo
+    interface InputStream
+
+    class FileInputStream implements InputStream     class FilterInputStream implements InputStream
+                                                             InputStram inputStram;
+                                                             //这种写法的好处是 FilterInputStream作为一个装饰者，将InputStream组合在一起
+                                                              public FilterInputStream(InputStram inputStram){
+                                                                    this.input = input;
+                                                              }
+6、

@@ -18,9 +18,9 @@ public class Test {
         Target target = new FileProperties();
         try {
             target.readFromFile("F:\\a.properties");
-            System.out.println(target.getValue("lizhu"));
+            System.out.println(target.getValue("a"));
             target.setValue("wuhaolong","121212");
-            target.writeToFile("F:\\b.properties");
+            target.writeToFile("F:\\a.properties");
         } catch (IOException e) {
             e.printStackTrace();
         }
