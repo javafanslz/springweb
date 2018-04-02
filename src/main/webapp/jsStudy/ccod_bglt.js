@@ -120,7 +120,74 @@ function BGLT() {
 		_bglt.initOutNum();
 		_bglt.initFWZFNum();
 		_bglt.initFWZFType();
+        _bglt.initHFZF();
 	};
+    /**
+     * 校验
+     */
+	BGLT.prototype.validate = function(){
+        if(!_bglt.validateState()){
+            return false;
+        }
+        if(!_bglt.validateJFHM()){
+            return false;
+        }
+        if(!_bglt.validateAccNum()){
+            return false;
+        }
+        if(!_bglt.validateAgentNum()){
+            return false;
+        }
+        if(!_bglt.validateOutNum()){
+            return false;
+        }
+        if(!_bglt.validateNum()){
+            return false;
+        }
+        if(!_bglt.validateType()){
+            return false;
+        }
+        if(!_bglt.validateZdxq()){
+            return false;
+        }
+        if(!_bglt.validateHFZF()){
+            return false;
+        }
+        return true;
+    };
+    /**
+     * 校验企业当前状态
+     * 业务终止：不允许发起任何类别的工单。仅在发起人处进行校验。
+     * 业务恢复：允许任何变更，无需校验
+     */
+    BGLT.prototype.validateState = function(){
+        var state = $("#field0189").text();
+        var selectState = $("#field0185_txt").val();
+        console.log(state);
+        console.log(selectState);
+        if(state != ''&&typeof(state)!="undefined"){
+            if(state.indexOf("业务终止")!=-1){
+                alert("【状态变更】当前企业已经终止业务，不能发送工单！！");
+                return false;
+            }
+            if(state.indexOf("业务暂停")!=-1){
+                if(selectState == '' ||typeof(selectState == "undefined")){
+                    alert("【状态变更】当前企业为业务暂停状态，进行操作前请选择要变更的状态");
+                    return false;
+                }
+            }
+        }else{
+            //第一次提交状态变更不予许提交恢复工单
+            if(selectState != '' &&typeof(selectState != "undefined")){
+                if(selectState.indexOf("业务恢复")!=-1){
+                    alert("【状态变更】第一次提交状态变更不予许提交恢复工单");
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
 
 
 	/**
@@ -407,6 +474,78 @@ function BGLT() {
 		}
 	};
 
+	/**
+	 * 数量校验  所有的数量一组必填（勾选了数量变更）
+	 *
+	 */
+	BGLT.prototype.validateNum = function(){
+		if($("#field0188").is(":checked")){
+			var ivr = $("input[name=field0129]").is(":checked");
+			var tts = $("input[name=field0130]").is(":checked");
+			var zdwb = $("input[name=field0131]").is(":checked");
+			var yzd = $("input[name=field0132]").is(":checked");
+			var tjfx = $("input[name=field0133]").is(":checked");
+			var zxly = $("input[name=field0134]").is(":checked");
+			var wzd = $("input[name=field0135]").is(":checked");
+
+			var ivrVal= $("#field0136").val();
+			var ttsVal= $("#field0137").val();
+			var zdwbVal =$("#field0138").val();
+			var yzdVal= $("#field0139").val();
+			var tjfxVal =$("#field0140").val();
+			var zxlyVal =$("#field0141").val();
+			var wzdVal= $("#field0142").val();
+
+			if(!(ivr||tts||zdwb||yzd||tjfx||zxly||wzd)){
+				alert("【服务资费信息】变动类型单选框最少填写一个");
+				return false;
+			}
+
+			if(ivrVal == "" &&ttsVal == "" &&zdwbVal == "" &&yzdVal == ""
+				&&tjfxVal == "" &&zxlyVal == "" &&wzdVal== ""){
+				alert("【服务资费信息】变更数量列最少填写一个");
+			}
+			var ivrTest = (ivr&& ivrVal !="") || (!ivr&&ivrVal == "");
+			var ttsTest = (tts&& ttsVal !="") || (!tts&&ttsVal == "");
+			var zdwbTest = (zdwb&& zdwbVal !="") || (!zdwb&&zdwbVal == "");
+			var yzdTest = (yzd&& yzdVal !="") || (!yzd&&yzdVal == "");
+			var tjfxTest = (tjfx&& tjfxVal !="") || (!tjfx&&tjfxVal == "");
+			var zxlyTest = (zxly&& zxlyVal !="") || (!zxly&&zxlyVal == "");
+			var wzdTest = (wzd&& wzdVal !="") || (!wzd&&wzdVal == "");
+			if(ivrTest){
+				alert("【服务资费信息】选择ivr变动类型和填写变更数量必须同时填写或同时不填写");
+				return false;
+			}
+			if(ttsTest){
+				alert("【服务资费信息】选择tts变动类型和填写变更数量必须同时填写或同时不填写");
+				return false;
+			}
+			if(zdwbTest){
+				alert("【服务资费信息】选择自动外拨变动类型和填写变更数量必须同时填写或同时不填写");
+				return false;
+			}
+			if(yzdTest){
+				alert("【服务资费信息】选择有终端变动类型和填写变更数量必须同时填写或同时不填写");
+				return false;
+			}
+			if(tjfxTest){
+				alert("【服务资费信息】选择统计分析变动类型和填写变更数量必须同时填写或同时不填写");
+				return false;
+			}
+			if(zxlyTest){
+				alert("【服务资费信息】选择坐席录音变动类型和填写变更数量必须同时填写或同时不填写");
+				return false;
+			}
+			if(wzdTest){
+				alert("【服务资费信息】选择无终端变动类型和填写变更数量必须同时填写或同时不填写");
+				return false;
+			}
+
+			return true;
+		}
+		return true;
+	};
+
 
 	/**
 	 * 服务资费中的服务类型和单价
@@ -463,17 +602,244 @@ function BGLT() {
 		}
 	};
 
+	/**
+	 * 校验服务资费中的服务类型和单价
+	 */
+	BGLT.prototype.validateType = function(){
+		if($("#field0192").is(":checked")){
+			var ivr = $("input[name=field0049]").is(":checked");
+			var tts = $("input[name=field0050]").is(":checked");
+			var zdwb =$("input[name=field0051]").is(":checked");
+			var yzd = $("input[name=field0052]").is(":checked");
+			var tjfx =$("input[name=field0053]").is(":checked");
+			var zxly =$("input[name=field0054]").is(":checked");
+			var wzd = $("input[name=field0055]").is(":checked");
+
+			var ivrVal= $("#field0049").val();
+			var ttsVal= $("#field0050").val();
+			var zdwbVal =$("#field0051").val();
+			var yzdVal= $("#field0052").val();
+			var tjfxVal =$("#field0053").val();
+			var zxlyVal =$("#field0054").val();
+			var wzdVal= $("#field0055").val();
+
+			if(!(ivr||tts||zdwb||yzd||tjfx||zxly||wzd)){
+				alert("【服务资费信息】服务类型单选框最少填写一个");
+				return false;
+			}
+
+			if(ivrVal == "" &&ttsVal == "" &&zdwbVal == "" &&yzdVal == ""
+				&&tjfxVal == "" &&zxlyVal == "" &&wzdVal== ""){
+				alert("【服务资费信息】折扣后单价列最少填写一个");
+			}
+			var ivrTest = (ivr&& ivrVal !="") || (!ivr&&ivrVal == "");
+			var ttsTest = (tts&& ttsVal !="") || (!tts&&ttsVal == "");
+			var zdwbTest = (zdwb&& zdwbVal !="") || (!zdwb&&zdwbVal == "");
+			var yzdTest = (yzd&& yzdVal !="") || (!yzd&&yzdVal == "");
+			var tjfxTest = (tjfx&& tjfxVal !="") || (!tjfx&&tjfxVal == "");
+			var zxlyTest = (zxly&& zxlyVal !="") || (!zxly&&zxlyVal == "");
+			var wzdTest = (wzd&& wzdVal !="") || (!wzd&&wzdVal == "");
+			if(ivrTest){
+				alert("【服务资费信息】选择ivr服务类型和填写折扣后单价必须同时填写或同时不填写");
+				return false;
+			}
+			if(ttsTest){
+				alert("【服务资费信息】选择tts服务类型和填写折扣后单价必须同时填写或同时不填写");
+				return false;
+			}
+			if(zdwbTest){
+				alert("【服务资费信息】选择自动外拨服务类型和填写折扣后单价必须同时填写或同时不填写");
+				return false;
+			}
+			if(yzdTest){
+				alert("【服务资费信息】选择有终端服务类型和填写折扣后单价必须同时填写或同时不填写");
+				return false;
+			}
+			if(tjfxTest){
+				alert("【服务资费信息】选择统计分析服务类型和填写折扣后单价必须同时填写或同时不填写");
+				return false;
+			}
+			if(zxlyTest){
+				alert("【服务资费信息】选择坐席录音服务类型和填写折扣后单价必须同时填写或同时不填写");
+				return false;
+			}
+			if(wzdTest){
+				alert("【服务资费信息】选择无终端服务类型和填写折扣后单价必须同时填写或同时不填写");
+				return false;
+			}
+
+			return true;
+		}
+		return true;
+	};
+
+    /**
+     *校验所有的其他选择选项中的文本是否填写
+     */
+    BGLT.prototype.validateOtherText =function(){
+        var value = $("input[name=field0034]:checked").attr("value");
+        if(value != null){
+            if(value == "3288302870514713075"){//其他
+                if($("#field0036").val() == ""){
+                    alert("【业务系统】请填写业务系统类型中的其他");
+                    return false;
+                }
+            }
+        }
+        //有终端其它
+        var value1 = $("input[name=field0038]:checked").attr("value");
+        if(value1 != null){
+            if (value1 == "-1122618658103079534") {//其他
+                if($("#field0040").val() == ""){
+                    alert("【有终端】请填写有终端中的其他");
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+    /**
+     * 终端需求
+     * @returns {boolean}
+     */
+    BGLT.prototype.validateZdxq = function(){
+        if($("#field0036").is(":checked")){
+            if($("input[name=field0038]").is(":checked")){
+                alert("【终端需求】选择了有终端，必须选择有终端的具体选项");
+                return false;
+            }
+            return true;
+        }
+      return true;
+    };
+
+    /**
+     * 话费资费
+     */
+    BGLT.prototype.initHFZF = function(){
+
+        if($("#field0196").is(":checked")){
+            $("#field0078").attr("disabled",false);//通话资费
+            $("#field0088").attr("disabled",false);//含多少分钟
+            $("#field0107").attr("disabled",false);//含多少分钟
+            $("input[name=field0079]").attr("disabled",false);//整体优惠 平均每坐席
+            $("#field0080").attr("disabled",false);//超出部分按照
+
+            $("#field0081").attr("disabled",false);
+            $("#field0082").attr("disabled",false);
+            $("#field0083").attr("disabled",false);
+            $("#field0084").attr("disabled",false);
+            $("#field0085").attr("disabled",false);
+            $("#field0086").attr("disabled",false);
+
+            $("#field0078").css('background','#FCDD8B');//通话资费
+            $("#field0088").css('background','#FCDD8B');//含多少分钟
+            $("#field0107").css('background','#FCDD8B');//含多少分钟
+            $("#field0080").css('background','#FCDD8B');//超出部分按照
+        }else{
+            $("#field0078").attr("disabled",true);//通话资费
+            $("#field0088").attr("disabled",true);//含多少分钟
+            $("#field0107").attr("disabled",true);//含多少分钟
+            $("input[name=field0079]").attr("disabled",true);//整体优惠 平均每坐席
+            $("#field0080").attr("disabled",true);//超出部分按照
+
+            $("#field0081").attr("disabled",true);
+            $("#field0082").attr("disabled",true);
+            $("#field0083").attr("disabled",true);
+            $("#field0084").attr("disabled",true);
+            $("#field0085").attr("disabled",true);
+            $("#field0086").attr("disabled",true);
+
+            $("#field0078").css('background','');//通话资费
+            $("#field0088").css('background','');//含多少分钟
+            $("#field0107").css('background','');//含多少分钟
+            $("#field0080").css('background','');//超出部分按照
+        }
+    };
+
+    /**
+     * 校验话费资费
+     */
+    BGLT.prototype.validateHFZF = function(){
+        if($("#field0196").is(":checked")){
+            var thzf = $("#field0078");//通话资费
+            var han = $("#field0088");//含多少分钟
+            var yuan = $("#field0107");//含多少分钟
+            var ztyh = $("input[name=field0079]:checked");//整体优惠 平均每坐席
+            var chaochu = $("#field0080");//超出部分按照
+
+
+            var check =thzf.val() == "" && han.val() == "" && yuan.val() == ""
+                && typeof(ztyh.val()) == "undefined" && chaochu.val() == "" ;
+
+            var ivrsh = $("#field0081");
+            var ivrct = $("#field0082");
+            var zxsh = $("#field0083");
+            var zxct = $("#field0084");
+            var whsh = $("#field0085");
+            var whct = $("#field0086");
+
+            check = check && (!ivrsh.is(":checked")&&!ivrct.is(":checked")&&!zxsh.is(":checked")&&!zxct.is(":checked")&&!whsh.is(":checked")&&!whct.is(":checked"));
+
+            if(check){
+                alert("【定制化资费】选择话费资费变更，至少填写定制化资费里的一项");
+                return false;
+            }
+        }
+        return true;
+    };
+
+
+/*    /!**
+     *验证定制化资费，填写其中一个内容，必须全部全部填写（一组非必填）
+     *!/
+    BGLT.prototype.validate_dzhzf = function(){
+        var thzf = $("#field0078");//通话资费
+        var han = $("#field0088");//含多少分钟
+        var yuan = $("#field0107");//含多少分钟
+        var ztyh = $("input[name=field0079]:checked");//整体优惠 平均每坐席
+        var chaochu = $("#field0080");//超出部分按照
+
+        if(thzf.val() != "" || han.val() != "" || yuan.val() != "" || typeof(ztyh.val()) != "undefined" || chaochu.val() != ""){
+            if(!(thzf.val() != "" && han.val() != ""&& yuan.val() != "" && typeof(ztyh.val()) != "undefined" && chaochu.val() != "")){
+                alert("【定制化资费】定制化资费中如果填写一项，就得全部填写");
+                thzf.focus();
+                return false;
+            }
+        }
+        return true;
+    };
+
+    /!**
+     * 通话资费
+     * @returns {boolean}
+     *!/
+    BGLT.prototype.validate_thzf = function(){
+        var ivrsh = $("#field0081");
+        var ivrct = $("#field0082");
+        var zxsh = $("#field0083");
+        var zxct = $("#field0084");
+        var whsh = $("#field0085");
+        var whct = $("#field0086");
+        if(!ivrsh.is(":checked")&&!ivrct.is(":checked")&&!zxsh.is(":checked")&&!zxct.is(":checked")&&!whsh.is(":checked")&&!whct.is(":checked")){
+            alert("【通话资费】至少选择一个");
+            ivrsh.focus();
+            return false;
+        }
+        return true;
+    };*/
+
 
 	/**
 	 * 设置所有单选 点击选中再点击取消
 	 */
 	BGLT.prototype.radiocheck = function () {
 		$(":radio").each(function () {
-			if ($(this).val() != -5951425570627761360 && $(this).val() != 6193382351362802577
+			/*if ($(this).val() != -5951425570627761360 && $(this).val() != 6193382351362802577
 				&& $(this).val() != 7221839946071951327 && $(this).val() != 3288302870514713075
 				&& $(this).val() != 8254392202341730514 && $(this).val() != -4305093821079142156
 				&& $(this).val() != -7530274332352494683 && $(this).val() != -1122618658103079534
-			) {
+			) {*/
 				$(this).attr('cs', false);
 
 				$(this).click(function (arg1) {
@@ -491,7 +857,7 @@ function BGLT() {
 						$(this).attr('cs', 'true');
 					}
 				});
-			}
+			//}
 
 		});
 	};
@@ -527,6 +893,11 @@ function BGLT() {
 			$("#field0039").attr("disabled", true);
 			$("#field0039").css('background','');
 		}
+		if( $("input[name=field0038]").is(":checked")){
+            $("#field0036").attr("checked",true);
+        }else{
+            $("#field0036").attr("checked",false);
+        }
 	};
 
 	BGLT.prototype.elements = {

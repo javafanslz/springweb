@@ -69,10 +69,8 @@ function qnValidate() {
 		valiResult = qnObjs.yqzq.validate();
 	}else if (title.indexOf("延期工单-联通") != -1 && qnObjs.yqlt) {
         valiResult = qnObjs.yqlt.validate();
-    }  else if (title.indexOf("状态变更单") != -1 && qnObjs.ywztbg) {
-		valiResult = qnObjs.ywztbg.validate();
-	} else if (title.indexOf("业务变更单") != -1 && qnObjs.ywbg) {
-		valiResult = qnObjs.ywbg.validate();
+    }  else if (title.indexOf("业务变更单-联通") != -1 && qnObjs.bglt) {
+		valiResult = qnObjs.bglt.validate();
 	} else if (title.indexOf("调账受理单") != -1 && qnObjs.tzsl) {
 		valiResult = qnObjs.tzsl.validate();
 	}else if (title.indexOf("成本支付申请单") != -1 && qnObjs.cbzf) {
