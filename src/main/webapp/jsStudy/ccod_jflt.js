@@ -196,6 +196,11 @@ function JFLT() {
 		}else{
 			$("#field0017").css('background','#FFFFFF');
 		}
+
+		if(shpt.indexOf("联通")==-1){
+			alert("【所属平台】直签工单不能选择联通合作客户！");
+			return false;
+		}
 		return true;
 	};
 	/**
@@ -787,7 +792,7 @@ function JFLT() {
 	 JFLT.prototype.until_valiJfNum = function(tel) { // 缴费号码
 		var isPhoneNum = false;
 		// 手机正则表达式
-		var mp_reg = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{10,14}$/;
+		var mp_reg = /^\d{10,14}$/;
 		if (mp_reg.test(tel)) {
 			isPhoneNum = true;
 		}

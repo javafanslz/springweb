@@ -47,8 +47,15 @@ function JFZQ() {
 	};
 	
 	JFZQ.prototype.validate = function() {
+		//接口人电话
+		if(!_jfzq.validate_JKRNumber()){
+			return false;
+		}
 		//平台类型
 		if(!_jfzq.validate_ptlx()){
+			return false;
+		}
+		if(!_jfzq.validate_Agent()){
 			return false;
 		}
 		//坐席电话
@@ -83,34 +90,103 @@ function JFZQ() {
 		if(!_jfzq.validate_dzhzf()){
 			return false;
 		}
-		//联通上传邮件
-		if(!_jfzq.validate_YQEmail()){
-			return false;
-		}
 
 	};
 
-	//所属平台行
+	/**
+	 * 所属平台和各个控件之间的关系
+	 * 当平台类型为未验收的时候所属平台可以输入
+	 * 当所属平台是ccod4.5平台的  坐席功能变为可选否则不可选
+	 * 试用数量中不可选择变为选择
+	 */
 	JFZQ.prototype.eventMouseSSPTTR = function(){
-		$("#field0017").attr("disabled",true);
 		var shptr = $("#field0017").parents("table");
 		shptr.mouseover(function(){
-			if($("#field0016").text()=="未验收平台"){
-				$("#field0017").attr("disabled",false);
-				$("#field0017").css('background','#FCDD8B');
-			}else{
-				$("#field0017").attr("disabled",true);
-				$("#field0017").css('background','#FFFFFF');
-			}
-		});
-		shptr.keypress(function(){
-			if($("#field0016").text()=="未验收平台"){
+			//获取平台类型
+			var ptType = $("#field0016").html();
+			if(ptType == "未验收平台"){
 				$("#field0017").attr("disabled",false);
 			}else{
 				$("#field0017").attr("disabled",true);
 			}
-		});
+			var pingtai = $("#field0017").val();
+			if(pingtai.indexOf("CCOD4.5平台") != -1){
+				//坐席功能
+				$("#field0170").attr("disabled",false);
+				$("#field0171").attr("disabled",false);
+				$("#field0172").attr("disabled",false);
 
+				$("#field0175").attr("disabled",false);
+				$("#field0180").attr("disabled",false);
+				$("#field0177").attr("disabled",false);
+				$("#field0182").attr("disabled",false);
+				$("#field0059").attr("disabled",true);
+				$("#field0077").attr("disabled",true);
+
+				$("#field0175").css('background','#FCDD8B');
+				$("#field0180").css('background','#FCDD8B');
+				$("#field0177").css('background','#FCDD8B');
+				$("#field0182").css('background','#FCDD8B');
+				$("#field0059").css('background','');
+				$("#field0077").css('background','');
+
+			}else{
+				//坐席功能
+				$("#field0170").attr("disabled",true);
+				$("#field0171").attr("disabled",true);
+				$("#field0172").attr("disabled",true);
+
+				$("#field0175").attr("disabled",true);
+				$("#field0180").attr("disabled",true);
+				$("#field0177").attr("disabled",true);
+				$("#field0182").attr("disabled",true);
+				$("#field0059").attr("disabled",false);
+				$("#field0077").attr("disabled",false);
+
+				$("#field0175").css('background','');
+				$("#field0180").css('background','');
+				$("#field0177").css('background','');
+				$("#field0182").css('background','');
+				$("#field0059").css('background','#FCDD8B');
+				$("#field0077").css('background','#FCDD8B');
+			}
+		});
+	};
+
+	/**
+	 * 接口人电话校验
+	 */
+	JFZQ.prototype.validate_JKRNumber = function(){
+		var number = $("#field0134").val();
+		var pattern = /^[0-9]*$/;
+		if(number == ""){
+			alert("接口人电话不能为空");
+			$("#field0134").focus();
+			return false;
+		}
+		if(!pattern.test(number)){
+			alert("接口人电话只能为数字");
+			$("#field0134").focus();
+			return false;
+		}
+		return true;
+	};
+
+	/**
+	 * 校验坐席功能
+	 * ccod4.5平台 坐席功能必须选择一个
+	 */
+	JFZQ.prototype.validate_Agent = function(){
+		var pingtai = $("#field0017").val();
+		if(pingtai.indexOf("CCOD4.5平台") != -1){
+			if($("#field0170").is(":checked")||$("#field0171").is(":checked")||$("#field0172").is(":checked")){
+				return true;
+			}else{
+				alert("【坐席功能】ccod4.5平台坐席功能必须选择一个");
+				return false;
+			}
+		}
+		return true;
 	};
 
 	JFZQ.prototype.test = function(a) {
@@ -118,12 +194,12 @@ function JFZQ() {
 	};
 	
 	JFZQ.prototype.initTrObjs = function() {
-		$("#field0155").css('background','#FCDD8B');//ivr现有数量
+		/*$("#field0155").css('background','#FCDD8B');//ivr现有数量
 		$("#field0157").css('background','#FCDD8B');//自动外拨已有试用数量
 		$("#field0161").css('background','#FCDD8B');//坐席(无终端)含录音及报表现有试用数量
 		$("#field0069").css('background','#FCDD8B');//自动语音服务基本服务费折扣单价
 		$("#field0073").css('background','#FCDD8B');//人工服务基本服务费折扣单价
-		$("#field0145_span").parent().css('background','#FCDD8B');//sip电话
+		$("#field0145_span").parent().css('background','#FCDD8B');//sip电话*/
 	};
 
 	JFZQ.prototype.initCss = function() {
@@ -192,6 +268,11 @@ function JFZQ() {
 		}else{
 			$("#field0017").css('background','#FFFFFF');
 		}
+
+		if(shpt.indexOf("联通")!=-1){
+			alert("【所属平台】直签工单不能选择联通合作客户！");
+			return false;
+		}
 		return true;
 	};
 
@@ -200,7 +281,7 @@ function JFZQ() {
 	 * 坐席电话校验
 	 */
 	JFZQ.prototype.validateAgentTel = function(){
-		if(!($("#field0145").is(":checked")||$("#field0146").is(":checked"))){
+		if(!($("#field0145").is(":checked")||$("#field0146").is(":checked")||$("#field0173").is(":checked"))){
 			alert("【坐席电话】必须选择坐席电话中一个选项");
 			$("#field0145_span").parent().focus();
 			return false;
@@ -259,6 +340,11 @@ function JFZQ() {
 			$("#field0142").focus();
 			return false;
 		}
+		if((outNum1.val() != '' || outNum2.val() != '' || outNum3.val() != '') || attachmentChilds.length!=0){
+			alert("【外显反馈结果】填写外显反馈结果，必填外显反馈结果！");
+			$("#field0142").focus();
+			return false;
+		}
 		return true;
 	};
 
@@ -268,16 +354,8 @@ function JFZQ() {
 	 */
 	JFZQ.prototype.validate_JFnumber = function() {
 		var hrsh1 =$("#field0024").val();
-		var hrct1 =$("#field0025").val();
-		var hrsh2 =$("#field0026").val();
-		var hrct2 =$("#field0027").val();
-		var yyfwf =$("#field0028").val();
 
 		var isPhoneNum = (hrsh1=='')?true:this.until_valiJfNum(hrsh1);
-		isPhoneNum = isPhoneNum && ((hrct1=='')?true:this.until_valiJfNum(hrct1));
-		isPhoneNum = isPhoneNum && ((hrsh2=='')?true:this.until_valiJfNum(hrsh2));
-		isPhoneNum = isPhoneNum && ((hrct2=='')?true:this.until_valiJfNum(hrct2));
-		isPhoneNum = isPhoneNum && ((yyfwf=='')?true:this.until_valiJfNum(yyfwf));
 
 
 		if(!isPhoneNum){
@@ -290,39 +368,41 @@ function JFZQ() {
 		return true;
 	};
 
-	//验证联通客户必选上传邮件
-	//延期错误
-	JFZQ.prototype.validate_YQEmail = function() {
-		//var yhlx = $("#field0016").text();
-		// 延期邮件
-		var attachment = $("#field0033_span").children(":first").next();
-		var attachmentChilds = attachment.children();
-		var temp = attachmentChilds.length;
-
-		if (temp == 0) {
-			alert("联通用户必须上传【信息邮件】！");
-			$("#field0033_span").focus();
-			// $(":contains('延期邮件')").parents("td").css("color", "red");
-			return false;
-		}
-
-		return true;
-	};
 
 	/**
 	 * 终端需求中校验
-	 * 二个必选其一
+	 * 三个必选其一
 	 */
 	JFZQ.prototype.validateZD = function(){
 		if(!($("#field0037").is(":checked")||$("#field0038").is(":checked"))){
 			alert("【终端需求】终端需求中必须选择一个终端类型");
-			$("#field0037").focus();
 			return false;
 		}
-		//如果选择有终端  后面的单选按钮也必须选择
+		//校验业务系统和有终端之间的关联关系
+		var value = $("input[name=field0035]:checked").attr("value");
+		var zdxq = $("input[name=field0039]:checked").attr("value");
+		if(value != null) {
+			if (value == "-8035373081964597131") {//客+
+				var pingtai = $("#field0017").val();
+				if(pingtai.indexOf("CCOD4.5平台") == -1){//不是ccod4.5平台 不能选择客+
+					alert("【业务系统类型】不是4.5平台不能选择客+");
+					return false;
+				}
+				if (zdxq != "3911880719776501017") {//选择客+ 终端需求应该选择js
+					alert("业务需求中选择【客+】，有终端应该选择【JS】");
+					return false;
+				}
+			}
+			if(value == "-8429465311877512806" || value == "-9150741835358384558"){ //选择客服通或电销通
+				if(zdxq != "-5010749408830733596"){
+					alert("当选择客服通或这电销通时，有终端应该选择【ADT】");
+					return false;
+				}
+			}
+		}
 		if($("#field0037").is(":checked")){
-			if(typeof($("input[name=field0039]:checked").val()) == "undefined"){
-				alert("【终端需求】请选择有终端分类");
+			if(typeof(zdxq)=="undefined"){
+				alert("【终端需求】勾选了有终端，需要勾选后面的具体选项！");
 				return false;
 			}
 		}
@@ -334,7 +414,7 @@ function JFZQ() {
 	 */
 	JFZQ.prototype.validateOtherText =function(){
 		var value = $("input[name=field0035]:checked").attr("value");
-		if(value != null){
+		if(typeof (value) != "undefined" && value != ""){
 			if(value == "-2683795712946518790"){//其他
 				if($("#field0036").val() == ""){
 					alert("请填写业务系统类型中的【其它】");
@@ -342,12 +422,13 @@ function JFZQ() {
 				}
 			}
 		}
+
 		//有终端其它
 		var value1 = $("input[name=field0039]:checked").attr("value");
 		if(value1 != null){
 			if (value1 == "5567501390920437337") {//其他
 				if($("#field0040").val() == ""){
-					alert("请填写有终端中的【其它】");
+					alert("【有终端】请填写有终端中的其他");
 					return false;
 				}
 			}
@@ -378,107 +459,73 @@ function JFZQ() {
 	 * 服务资费校验
 	 */
 	JFZQ.prototype.validate_fwzf = function(){
-		//一些必填项
-		if($("#field0155").val() == ""){
-			alert("【服务资费】请填写IVR现有数量");
-			$("#field0155").focus();
+		//最终计费
+		var ivrVal =  $("#field0052").val();
+		var ttsVal =  $("#field0053").val();
+		var zdwbVal = $("#field0054").val();
+		var yzdVal =  $("#field0056").val();
+		var tjfxVal = $("#field0057").val();
+		var zxlyVal = $("#field0058").val();
+		var wzdVal =  $("#field0059").val();
+		var kejiaVal =$("#field0175").val();
+		var wbjqrVal= $("#field0180").val();
+
+		//单价
+		var ivrPrice =   $("#field0070").val();
+		var ttsPrice =   $("#field0071").val();
+		var zdwbPrice =  $("#field0072").val();
+		var yzdPrice =   $("#field0074").val();
+		var tjfxPrice = $("#field0075").val();
+		var zxlyPrice =  $("#field0076").val();
+		var wzdPrice =   $("#field0077").val();
+		var kejiaPrice = $("#field0177").val();
+		var wbjqrPrice=  $("#field0182").val();
+
+		var ivrTest = (ivrPrice!=""&& ivrVal !="") || (!ivrPrice == "" &&ivrVal == "");
+		var ttsTest = (ttsPrice!=""&& ttsVal !="") || (!ttsPrice ==""&&ttsVal == "");
+		var zdwbTest = (zdwbPrice != ""&& zdwbVal !="") || (!zdwbPrice==""&&zdwbVal == "");
+		var yzdTest = (yzdPrice&& yzdVal !="") || (!yzdPrice == ""&&yzdVal == "");
+		var tjfxTest = (tjfxPrice!=""&& tjfxVal !="") || (!tjfxPrice == ""&&tjfxVal == "");
+		var zxlyTest = (zxlyPrice!=""&& zxlyVal !="") || (!zxlyPrice == ""&&zxlyVal == "");
+		var wzdTest = (wzdPrice!=""&& wzdVal !="") || (!wzdPrice == ""&&wzdVal == "");
+		var kejiaTest = (kejiaPrice!=""&& kejiaVal !="") || (!kejiaPrice == ""&&kejiaVal == "");
+		var wbjqrTest = (wbjqrPrice!=""&& wbjqrVal !="") || (!wbjqrPrice == ""&&wbjqrVal == "");
+
+		if(!ivrTest){
+			alert("【服务资费信息】选择ivr最终数量和填写折扣单价必须同时填写或同时不填写");
 			return false;
 		}
-		if($("#field0157").val() == ""){
-			alert("【服务资费】自动外拨已有试用数量");
-			$("#field0157").focus();
+		if(!ttsTest){
+			alert("【服务资费信息】选择tts最终数量和填写折扣单价必须同时填写或同时不填写");
 			return false;
 		}
-		if($("#field0161").val() == ""){
-			alert("【服务资费】坐席(无终端)含录音及报表现有试用数量");
-			$("#field0161").focus();
+		if(!zdwbTest){
+			alert("【服务资费信息】选择自动外拨最终数量和填写折扣单价必须同时填写或同时不填写");
 			return false;
 		}
-		if($("#field0069").val() == ""){
-			alert("【服务资费】自动语音服务基本服务费折扣单价");
-			$("#field0069").focus();
+		if(!yzdTest){
+			alert("【服务资费信息】选择有终端最终数量和填写折扣单价必须同时填写或同时不填写");
 			return false;
 		}
-		if($("#field0073").val() == ""){
-			alert("【服务资费】人工服务基本服务费折扣单价");
-			$("#field0073").focus();
+		if(!tjfxTest){
+			alert("【服务资费信息】选择统计分析最终数量和填写折扣单价必须同时填写或同时不填写");
 			return false;
 		}
-
-		//一组必填校验（只要其中一个填写 这一组必须全部填写）
-		if($("#field0052").val() != "" || typeof($("input[name=field0061]:checked").val()) !="undefined"
-			|| $("#field0070").val() != ""){
-			if(!($("#field0052").val() != "" && typeof($("input[name=field0061]:checked").val()) !="undefined"
-				&& $("#field0070").val() != "")){
-				alert("【服务资费】IVR需要全部填写");
-				return false;
-			}
+		if(!zxlyTest){
+			alert("【服务资费信息】选择坐席录音最终数量和填写折扣单价必须同时填写或同时不填写");
+			return false;
 		}
-
-		//tts
-		if($("#field0053").val() != "" || typeof($("input[name=field0062]:checked").val()) !="undefined"
-			|| $("#field0071").val() != ""){
-			if(!($("#field0053").val() != "" && typeof($("input[name=field0062]:checked").val()) !="undefined"
-				&& $("#field0071").val() != "")){
-				alert("【服务资费】TTS需要全部填写");
-				$("#field0053").focus();
-				return false;
-			}
+		if(!wzdTest){
+			alert("【服务资费信息】选择无终端最终数量和填写折扣单价必须同时填写或同时不填写");
+			return false;
 		}
-
-		//自动外拨
-		if($("#field0054").val() != "" || typeof($("input[name=field0063]:checked").val()) !="undefined"
-			|| $("#field0072").val() != ""){
-			if(!($("#field0054").val() != "" && typeof($("input[name=field0063]:checked").val()) !="undefined"
-				&& $("#field0072").val() != "")){
-				alert("【服务资费】自动外拨需要全部填写");
-				$("#field0054").focus();
-				return false;
-			}
+		if(!kejiaTest){
+			alert("【服务资费信息】选择客+最终数量和填写折扣单价必须同时填写或同时不填写");
+			return false;
 		}
-
-		//有终端坐席
-		if($("#field0056").val() != "" || typeof($("input[name=field0065]:checked").val()) !="undefined"
-			|| $("#field0074").val() != ""){
-			if(!($("#field0056").val() != "" && typeof($("input[name=field0065]:checked").val()) !="undefined"
-				&& $("#field0074").val() != "")){
-				alert("【服务资费】有终端坐席需要全部填写");
-				$("#field0056").focus();
-				return false;
-			}
-		}
-
-		//统计分析
-		if($("#field0057").val() != "" || typeof($("input[name=field0066]:checked").val()) !="undefined"
-			|| $("#field0075").val() != ""){
-			if(!($("#field0057").val() != "" && typeof($("input[name=field0066]:checked").val()) !="undefined"
-				&& $("#field0075").val() != "")){
-				alert("【服务资费】统计分析需要全部填写");
-				$("#field0057").focus();
-				return false;
-			}
-		}
-
-		//坐席录音
-		if($("#field0058").val() != "" || typeof($("input[name=field0067]:checked").val()) !="undefined"
-			|| $("#field0076").val() != ""){
-			if(!($("#field0058").val() != "" && typeof($("input[name=field0067]:checked").val()) !="undefined"
-				&& $("#field0076").val() != "")){
-				alert("【服务资费】坐席录音需要全部填写");
-				$("#field0058").focus();
-				return false;
-			}
-		}
-
-		//坐席(无终端)含录音及报表最终计费总量
-		if($("#field0059").val() != "" || typeof($("input[name=field0068]:checked").val()) !="undefined"
-			|| $("#field0077").val() != ""){
-			if(!($("#field0059").val() != "" && typeof($("input[name=field0068]:checked").val()) !="undefined"
-				&& $("#field0077").val() != "")){
-				alert("【服务资费】坐席(无终端)含录音及报表需要全部填写");
-				$("#field0059").focus();
-				return false;
-			}
+		if(!wbjqrTest){
+			alert("【服务资费信息】选择文本机器人变动类型和填写折扣单价必须同时填写或同时不填写");
+			return false;
 		}
 
 		return true;
@@ -489,6 +536,10 @@ function JFZQ() {
 	 *验证定制化资费，填写其中一个内容，必须全部全部填写（一组非必填）
 	 */
 	JFZQ.prototype.validate_dzhzf = function(){
+		var dzhzf = $("input[name=field0090]:checked").val();
+		if(typeof(dzhzf) == "undefined" || dzhzf == ""){
+			return true;
+		}
 		var thzf = $("#field0091");//通话资费
 		var han = $("#field0101");//含多少分钟
 		var ztyh = $("input[name=field0092]:checked");//整体优惠 平均每坐席
@@ -503,6 +554,7 @@ function JFZQ() {
 		}
 		return true;
 	};
+
 	/**
 	 * 一些具有css关联事件
 	 * @type {{}}
@@ -660,10 +712,33 @@ function JFZQ() {
 		var value = $("input[name=field0035]:checked").attr("value");
 		if(value == "-5891212324087446913"){//其他
 			$("#field0036").attr("disabled",false);
+			$("#field0036").css('background','#FCDD8B');
 		}else{
 			$("#field0036").val("");
 			$("#field0036").attr("disabled",true);
+			$("#field0036").css('background','');
 		}
+
+		if(value == "8035373081964597131"){//客+
+			var pingtai = $("#field0017").val();
+			if(pingtai.indexOf("CCOD4.5平台") == -1){//不是ccod4.5平台 不能选择客+
+				alert("【业务系统类型】不是4.5平台不能选择客+");
+				return "";
+			}
+			$.each($("input[name=field0039]"),function(key,val){
+				if(val.value == "3911880719776501017"){
+					$(this).attr("checked",true);
+				}
+			});
+		}
+		if(value == "-8429465311877512806" || value == "-9150741835358384558"){ //选择客服通或电销通
+			$.each($("input[name=field0026]"),function(key,val){
+				if(val.value == "-5010749408830733596"){
+					$(this).attr("checked",true);
+				}
+			});
+		}
+
 	};
 	/**
 	 * 终端需求联动关系
@@ -673,9 +748,11 @@ function JFZQ() {
 		var value = $("input[name=field0039]:checked").attr("value");
 			if (value == "-1122618658103079534") {//其他
 				$("#field0040").attr("disabled", false);
+				$("#field0040").css('background','#FCDD8B');
 			} else {
 				$("#field0040").val("");
 				$("#field0040").attr("disabled", true);
+				$("#field0040").css('background','');
 			}
 	};
 
@@ -710,9 +787,9 @@ function JFZQ() {
 		"field0020":{id : "field0020",	type : "select",		name : "客户发展渠道"},
 		"field0020_txt":{id : "field0020_txt",	type : "select",		name : "客户发展渠道"},
 
-		"field0170":{id : "field0163",	type : "checkbox",name : "文本/IM坐席",initDisable:true},
-		"field0171":{id : "field0164",	type : "checkbox",name : "坐席语音",initDisable:true},
-		"field0172":{id : "field0165",	type : "checkbox",name : "视频坐席",initDisable:true},
+		"field0170":{id : "field0170",	type : "checkbox",name : "文本/IM坐席",initDisable:true},
+		"field0171":{id : "field0171",	type : "checkbox",name : "坐席语音",initDisable:true},
+		"field0172":{id : "field0172",	type : "checkbox",name : "视频坐席",initDisable:true},
 
 		"field0145":{id : "field0145",	type : "checkbox",	name : "SIP电话复选"},
 		"field0146":{id : "field0146",	type : "checkbox",	name : "PSTN电话"},
@@ -738,6 +815,8 @@ function JFZQ() {
 		"field0039":{id : "field0039",	type : "radio",		name : "OXC",	value:"-7530274332352494683",initDisable:true},
 		"field0039":{id : "field0039",	type : "radio",		name : "其他",	value:"-1122618658103079534",initDisable:true},
 		"field0040":{id : "field0040",	type : "text",		name : "终端需求-其他文本框",initDisable:true},
+
+
 };   
 /*事件注册*/
 	JFZQ.prototype.events = {
@@ -752,7 +831,7 @@ function JFZQ() {
 	 JFZQ.prototype.until_valiPhoneNum = function(tel) {
 		var isPhoneNum = false;
 		// 手机正则表达式
-		var mp_reg = /^(\(\d{3,4}\)|\d{3,4}|\s)?\d{5,16}$/;
+		var mp_reg = /^\d{5,16}$/;
 		if (mp_reg.test(tel)) {
 			isPhoneNum = true;
 		}
@@ -761,7 +840,7 @@ function JFZQ() {
 	 JFZQ.prototype.until_valiJfNum = function(tel) { // 缴费号码
 		var isPhoneNum = false;
 		// 手机正则表达式
-		var mp_reg = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{10,14}$/;
+		var mp_reg = /^\d{10,14}$/;
 		if (mp_reg.test(tel)) {
 			isPhoneNum = true;
 		}
