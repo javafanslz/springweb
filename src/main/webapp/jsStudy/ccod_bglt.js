@@ -219,6 +219,13 @@ function BGLT() {
 			$("#field0025").css('background','');
 			$("#field0026").css('background','');
 			$("#field0027").css('background','');
+
+			$("#field0023").val("");
+			$("#field0024").val("");
+			$("#field0025").val("");
+			$("#field0026").val("");
+			$("#field0027").val("");
+
 		}
 	};
 
@@ -273,6 +280,10 @@ function BGLT() {
 			$("#field0108").css('background','');
 			$("#field0111").css('background','');
 			$("#field0021_span").css('background','');
+
+			$("#field0108").val("");
+			$("#field0111").val("");
+			$("#field0021_span").val("");
 		}
 	};
 
@@ -334,6 +345,10 @@ function BGLT() {
 			$("#field0114").css('background','');
 			$("#field0120").css('background','');
 			$("#field0022_span").css('background','');
+
+			$("#field0114").val('');
+			$("#field0120").val('');
+			$("#field0022_span").val('');
 		}
 	};
 
@@ -387,6 +402,10 @@ function BGLT() {
 			$("#field0123").css('background','');
 			$("#field0126").css('background','');
 			$("#field0028_span").css('background','');
+
+			$("#field0123").val('');
+			$("#field0126").val('');
+			$("#field0028_span").val('');
 		}
 	};
 	/**
@@ -471,6 +490,14 @@ function BGLT() {
 			$("#field0140").css('background','');
 			$("#field0141").css('background','');
 			$("#field0142").css('background','');
+
+			$("#field0136").val('');
+			$("#field0137").val('');
+			$("#field0138").val('');
+			$("#field0139").val('');
+			$("#field0140").val('');
+			$("#field0141").val('');
+			$("#field0142").val('');
 		}
 	};
 
@@ -504,6 +531,7 @@ function BGLT() {
 			if(ivrVal == "" &&ttsVal == "" &&zdwbVal == "" &&yzdVal == ""
 				&&tjfxVal == "" &&zxlyVal == "" &&wzdVal== ""){
 				alert("【服务资费信息】变更数量列最少填写一个");
+				return false;
 			}
 			var ivrTest = (ivr&& ivrVal !="") || (!ivr&&ivrVal == "");
 			var ttsTest = (tts&& ttsVal !="") || (!tts&&ttsVal == "");
@@ -512,35 +540,34 @@ function BGLT() {
 			var tjfxTest = (tjfx&& tjfxVal !="") || (!tjfx&&tjfxVal == "");
 			var zxlyTest = (zxly&& zxlyVal !="") || (!zxly&&zxlyVal == "");
 			var wzdTest = (wzd&& wzdVal !="") || (!wzd&&wzdVal == "");
-			if(ivrTest){
+			if(!ivrTest){
 				alert("【服务资费信息】选择ivr变动类型和填写变更数量必须同时填写或同时不填写");
 				return false;
 			}
-			if(ttsTest){
+			if(!ttsTest){
 				alert("【服务资费信息】选择tts变动类型和填写变更数量必须同时填写或同时不填写");
 				return false;
 			}
-			if(zdwbTest){
+			if(!zdwbTest){
 				alert("【服务资费信息】选择自动外拨变动类型和填写变更数量必须同时填写或同时不填写");
 				return false;
 			}
-			if(yzdTest){
+			if(!yzdTest){
 				alert("【服务资费信息】选择有终端变动类型和填写变更数量必须同时填写或同时不填写");
 				return false;
 			}
-			if(tjfxTest){
+			if(!tjfxTest){
 				alert("【服务资费信息】选择统计分析变动类型和填写变更数量必须同时填写或同时不填写");
 				return false;
 			}
-			if(zxlyTest){
+			if(!zxlyTest){
 				alert("【服务资费信息】选择坐席录音变动类型和填写变更数量必须同时填写或同时不填写");
 				return false;
 			}
-			if(wzdTest){
+			if(!wzdTest){
 				alert("【服务资费信息】选择无终端变动类型和填写变更数量必须同时填写或同时不填写");
 				return false;
 			}
-
 			return true;
 		}
 		return true;
@@ -599,6 +626,14 @@ function BGLT() {
 			$("#field0062").css('background','');
 			$("#field0063").css('background','');
 			$("#field0064").css('background','');
+
+			$("#field0057").val('');
+			$("#field0058").val('');
+			$("#field0059").val('');
+			$("#field0061").val('');
+			$("#field0062").val('');
+			$("#field0063").val('');
+			$("#field0064").val('');
 		}
 	};
 
@@ -631,6 +666,7 @@ function BGLT() {
 			if(ivrVal == "" &&ttsVal == "" &&zdwbVal == "" &&yzdVal == ""
 				&&tjfxVal == "" &&zxlyVal == "" &&wzdVal== ""){
 				alert("【服务资费信息】折扣后单价列最少填写一个");
+				return false;
 			}
 			var ivrTest = (ivr&& ivrVal !="") || (!ivr&&ivrVal == "");
 			var ttsTest = (tts&& ttsVal !="") || (!tts&&ttsVal == "");
@@ -639,35 +675,34 @@ function BGLT() {
 			var tjfxTest = (tjfx&& tjfxVal !="") || (!tjfx&&tjfxVal == "");
 			var zxlyTest = (zxly&& zxlyVal !="") || (!zxly&&zxlyVal == "");
 			var wzdTest = (wzd&& wzdVal !="") || (!wzd&&wzdVal == "");
-			if(ivrTest){
+			if(!ivrTest){
 				alert("【服务资费信息】选择ivr服务类型和填写折扣后单价必须同时填写或同时不填写");
 				return false;
 			}
-			if(ttsTest){
+			if(!ttsTest){
 				alert("【服务资费信息】选择tts服务类型和填写折扣后单价必须同时填写或同时不填写");
 				return false;
 			}
-			if(zdwbTest){
+			if(!zdwbTest){
 				alert("【服务资费信息】选择自动外拨服务类型和填写折扣后单价必须同时填写或同时不填写");
 				return false;
 			}
-			if(yzdTest){
+			if(!yzdTest){
 				alert("【服务资费信息】选择有终端服务类型和填写折扣后单价必须同时填写或同时不填写");
 				return false;
 			}
-			if(tjfxTest){
+			if(!tjfxTest){
 				alert("【服务资费信息】选择统计分析服务类型和填写折扣后单价必须同时填写或同时不填写");
 				return false;
 			}
-			if(zxlyTest){
+			if(!zxlyTest){
 				alert("【服务资费信息】选择坐席录音服务类型和填写折扣后单价必须同时填写或同时不填写");
 				return false;
 			}
-			if(wzdTest){
+			if(!wzdTest){
 				alert("【服务资费信息】选择无终端服务类型和填写折扣后单价必须同时填写或同时不填写");
 				return false;
 			}
-
 			return true;
 		}
 		return true;
@@ -754,6 +789,11 @@ function BGLT() {
             $("#field0088").css('background','');//含多少分钟
             $("#field0107").css('background','');//含多少分钟
             $("#field0080").css('background','');//超出部分按照
+
+			$("#field0078").val('');//通话资费
+			$("#field0088").val('');//含多少分钟
+			$("#field0107").val('');//含多少分钟
+			$("#field0080").val('');//超出部分按照
         }
     };
 

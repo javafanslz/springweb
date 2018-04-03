@@ -71,10 +71,8 @@ function qnValidate() {
         valiResult = qnObjs.yqlt.validate();
     }  else if (title.indexOf("业务变更单-联通") != -1 && qnObjs.bglt) {
 		valiResult = qnObjs.bglt.validate();
-	} else if (title.indexOf("调账受理单") != -1 && qnObjs.tzsl) {
-		valiResult = qnObjs.tzsl.validate();
-	}else if (title.indexOf("成本支付申请单") != -1 && qnObjs.cbzf) {
-		valiResult = qnObjs.cbzf.validate();
+	} else if (title.indexOf("业务变更单-直签") != -1 && qnObjs.bgzq) {
+		valiResult = qnObjs.bgzq.validate();
 	}
 	return valiResult;
 }
