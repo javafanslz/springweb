@@ -4,11 +4,18 @@ import com.channelsoft.springweb.bean.*;
 import com.channelsoft.springweb.bean.definition.Boss;
 import com.channelsoft.springweb.event.MailSender;
 import com.channelsoft.springweb.proxy.spring.Waiter;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.HierarchicalBeanFactory;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
@@ -27,6 +34,13 @@ public class WebApplicationContextTest  implements ServletContextListener{
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        BeanFactory beanFactory;
+        HierarchicalBeanFactory hierarchicalBeanFactory;
+        AutowireCapableBeanFactory autowireCapableBeanFactory;
+        ListableBeanFactory listableBeanFactory;
+        BeanDefinition beanDefinition;
+        XmlBeanFactory xmlBeanFactory;
+        FileSystemXmlApplicationContext applicationContext;
         System.out.println("初始化"+sce.getServletContext().getContextPath());
        /* WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(sce.getServletContext());
         CarWithLifeCycle car = (CarWithLifeCycle)webApplicationContext.getBean("car");

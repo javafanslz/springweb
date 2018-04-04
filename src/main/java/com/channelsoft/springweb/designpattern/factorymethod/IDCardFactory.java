@@ -1,4 +1,4 @@
-package com.channelsoft.springweb.designpattern.factorymethod;
+package com.channelsoft.springweb.designPattern.factorymethod;
 
 import java.util.ArrayList;
 import java.util.List;

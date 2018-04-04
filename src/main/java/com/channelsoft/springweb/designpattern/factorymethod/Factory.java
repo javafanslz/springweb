@@ -1,4 +1,4 @@
-package com.channelsoft.springweb.designpattern.factorymethod;
+package com.channelsoft.springweb.designPattern.factorymethod;
 
 /**
  * @Author: lizhu

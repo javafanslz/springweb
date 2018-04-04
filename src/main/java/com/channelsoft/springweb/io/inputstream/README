@@ -47,4 +47,18 @@ available方法使我们可以去检查可用于读入字节的数量
                                                               public FilterInputStream(InputStram inputStram){
                                                                     this.input = input;
                                                               }
-6、
+6、对于构造函数使用的是protected，说明这个类的示例只能被子类或者同包的类创建
+
+7、Writer类
+            使用无参构造函数的时候，对象锁为Writer本身，否则为指定的对象作为同步锁;
+            方法代码走读
+            默认的字符长度为 1024
+            最主要的方法是write，一共被从重载了5次
+            write(int c)
+            write(char[] c )
+            wirte(char[] c,int start,int end)
+            write(String str)
+            write(String str,int start,int end)
+
+8、InputstreamReader 和OutstreamWtiter 可以把字节流转换为字符流
+9、使用字符流的时候注意编码格式

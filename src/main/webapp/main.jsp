@@ -10,12 +10,15 @@
 	<script type="application/javascript" src="jsStudy/jsTest.js"></script>
 	<script type="application/javascript" src="jsStudy/arrayTest.js"></script>
 	<script type="application/javascript" src="jsStudy/selectorTest.js"></script>
+	<script type="application/javascript" src="jsStudy/regexpTest.js"></script>
+	<script type="application/javascript" src="jsStudy/functionTest.js"></script>
 	<script type="text/javascript">
 		var contextPath = "${pageContext.request.contextPath}";
 	</script>
 </head>
 <body>
-<input type="button" value="测试按钮" onclick="fieldObjectAttrSelector()">
+测试正则表达式<input type="text" id="reg" />
+<input type="button" value="测试按钮" onclick="regTest()">
 <div id="div1">
 	第一个<input type ="text" name="myText1"/>
 </div>

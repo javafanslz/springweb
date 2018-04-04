@@ -1,0 +1,5 @@
+xml学习指南
+1、xml应该以一个文档头开始，但严格意义上不需要
+        <?xml version="1.0" encoding="UTF-8" ?>
+2、dtd document type definition 文档类型定义
+3、何时使用属性，何时使用元素
