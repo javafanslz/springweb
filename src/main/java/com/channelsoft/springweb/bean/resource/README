@@ -1,0 +1,6 @@
+对于Spring IoC容器的实现，主要包括三个部分
+1、Resource定位
+2、BeanDefinition的载入
+3、向IoC容器中的注册
+这里主要是讲如何进行Resource定位
+一、Definition的Resource定位
