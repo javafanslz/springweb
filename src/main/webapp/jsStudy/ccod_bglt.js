@@ -887,7 +887,7 @@ function BGLT() {
 
 					if ($(this).attr('cs') == 'true') {
 						$(this).attr('cs', 'false');
-						$(this).removeAttr('checked');
+						$(this).attr('checked',false);
 					} else {
 						$("input[name=" + _name + "]").each(function () {
 							$(this).attr('cs', 'false');
@@ -938,6 +938,35 @@ function BGLT() {
         }else{
             $("#field0036").attr("checked",false);
         }
+	};
+
+	BGLT.prototype.jfms = function(){
+		var jf = $("input[name=field0077]:checked").attr("value");
+		if(jf == "-1244957151022398219"){
+			$("#field0078").attr("disabled",false);
+			$("#field0107").attr("disabled",false);
+			$("#field0088").attr("disabled",false);
+			$("#field0080").attr("disabled",false);
+			$("#field0081").attr("disabled",false);
+			$("#field0082").attr("disabled",false);
+			$("#field0083").attr("disabled",false);
+			$("#field0084").attr("disabled",false);
+			$("#field0085").attr("disabled",false);
+			$("#field0086").attr("disabled",false);
+			$("input[name=field0079]").attr("disabled",false);
+		}else{
+			$("#field0078").attr("disabled",true);
+			$("#field0107").attr("disabled",true);
+			$("#field0088").attr("disabled",true);
+			$("#field0080").attr("disabled",true);
+			$("#field0081").attr("disabled",true);
+			$("#field0082").attr("disabled",true);
+			$("#field0083").attr("disabled",true);
+			$("#field0084").attr("disabled",true);
+			$("#field0085").attr("disabled",true);
+			$("#field0086").attr("disabled",true);
+			$("input[name=field0079]").attr("disabled",true);
+		}
 	};
 
 	BGLT.prototype.elements = {
@@ -1002,13 +1031,15 @@ function BGLT() {
 		"field0063":{id : "field0063",	type : "text",		name : "坐席录音单价",initDisable:true},
 		"field0064":{id : "field0064",	type : "text",		name : "无终端单价",initDisable:true},
 		"field0034":{id : "field0034",	type : "radio",		name : "业务系统按钮"},
-		"field0038":{id : "field0038",	type : "radio",		name : "终端需求"}
+		"field0038":{id : "field0038",	type : "radio",		name : "终端需求"},
+		"field0077":{id : "field0077",	type : "radio",		name : "计费模式"}
 	};
 
 	/*事件注册*/
 	BGLT.prototype.events = {
 		"field0034":{event:"click",func:"ywxt"},
-		"field0038":{event:"click",func:"zdxq"}
+		"field0038":{event:"click",func:"zdxq"},
+		"field0077":{event:"click",func:"jfms"}
 	};
 
 	/** **************工具函数********************** */

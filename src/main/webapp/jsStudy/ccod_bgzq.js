@@ -265,7 +265,7 @@ function BGZQ() {
 	 */
 	BGZQ.prototype.validateAgentNum = function(){
 		if($("#field0132").is(":checked")){
-			if(!($("#field0141").is(":checked")||$("#field0142").is(":checked")||$("#field0143").is(":checked"))){
+			if(!($("#field0079").is(":checked")||$("#field0080").is(":checked")||$("#field0144").is(":checked"))){
 				alert("【坐席电话】必须选择坐席电话中一个选项");
 				return false;
 			}

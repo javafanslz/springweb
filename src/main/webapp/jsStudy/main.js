@@ -57,7 +57,7 @@ function qnValidate() {
 
 	if (title.indexOf("上线计费工单-联通") != -1 && qnObjs.jflt) {
 		valiResult = qnObjs.jflt.validate();
-	} else if (title.indexOf("上线计费工单-直签") != -1 && qnObjs.jfzq) {
+	} else if (title.indexOf("计费工单-直签") != -1 && qnObjs.jfzq) {
 		valiResult = qnObjs.jfzq.validate();
 	} else if (title.indexOf("试用工单-直签") != -1 && qnObjs.syzq) {
 		valiResult = qnObjs.syzq.validate();
