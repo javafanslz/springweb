@@ -735,44 +735,47 @@ function BGZQ() {
 		if($("#field0138").is(":checked")){
 			$("input[name=field0056]").attr("disabled",false);
 			$("input[name=field0057]").attr("disabled",false);
+			var jf = $("input[name=field0057]:checked").attr("value");
+			if(typeof (jf) !="undefined" && jf!=""&&jf=="-1244957151022398219"){
 
-			$("#field0071").attr("disabled",false);
-			$("#field0072").attr("disabled",false);
-			$("#field0073").attr("disabled",false);
-			$("#field0074").attr("disabled",false);
-			$("#field0075").attr("disabled",false);
-			$("#field0076").attr("disabled",false);
+				$("#field0071").attr("disabled",false);
+				$("#field0072").attr("disabled",false);
+				$("#field0073").attr("disabled",false);
+				$("#field0074").attr("disabled",false);
+				$("#field0075").attr("disabled",false);
+				$("#field0076").attr("disabled",false);
 
-			$("#field0071").css("background","#FCDD8B");
-			$("#field0072").css("background","#FCDD8B");
-			$("#field0073").css("background","#FCDD8B");
-			$("#field0074").css("background","#FCDD8B");
-			$("#field0075").css("background","#FCDD8B");
-			$("#field0076").css("background","#FCDD8B");
+				$("#field0071").css("background","#FCDD8B");
+				$("#field0072").css("background","#FCDD8B");
+				$("#field0073").css("background","#FCDD8B");
+				$("#field0074").css("background","#FCDD8B");
+				$("#field0075").css("background","#FCDD8B");
+				$("#field0076").css("background","#FCDD8B");
+			}else {
+				$("#field0071").attr("disabled", true);
+				$("#field0072").attr("disabled", true);
+				$("#field0073").attr("disabled", true);
+				$("#field0074").attr("disabled", true);
+				$("#field0075").attr("disabled", true);
+				$("#field0076").attr("disabled", true);
+
+				$("#field0071").css("background", "");
+				$("#field0072").css("background", "");
+				$("#field0073").css("background", "");
+				$("#field0074").css("background", "");
+				$("#field0075").css("background", "");
+				$("#field0076").css("background", "");
+
+				$("#field0071").val("");
+				$("#field0072").val("");
+				$("#field0073").val("");
+				$("#field0074").val("");
+				$("#field0075").val("");
+				$("#field0076").val("");
+			}
 		}else{
-			$("input[name=field0056]").attr("disabled",true);
-			$("input[name=field0057]").attr("disabled",true);
-
-			$("#field0071").attr("disabled",true);
-			$("#field0072").attr("disabled",true);
-			$("#field0073").attr("disabled",true);
-			$("#field0074").attr("disabled",true);
-			$("#field0075").attr("disabled",true);
-			$("#field0076").attr("disabled",true);
-
-			$("#field0071").css("background","");
-			$("#field0072").css("background","");
-			$("#field0073").css("background","");
-			$("#field0074").css("background","");
-			$("#field0075").css("background","");
-			$("#field0076").css("background","");
-
-			$("#field0071").val("");
-			$("#field0072").val("");
-			$("#field0073").val("");
-			$("#field0074").val("");
-			$("#field0075").val("");
-			$("#field0076").val("");
+			$("input[name=field0056]").attr("disabled", true);
+			$("input[name=field0057]").attr("disabled", true);
 		}
 	};
 	/**
@@ -780,14 +783,17 @@ function BGZQ() {
 	 */
 	BGZQ.prototype.validateHFZF = function(){
 		if($("#field0138").is(":checked")){
-			var check = $("input[name=field0056]").is(":checked");
-			check = check || $("input[name=field0057]").is(":checked");
-			check = check || $("#field0071").val() != "" || $("#field0072").val() != ""||$("#field0073").val() != ""
-					||$("#field0074").val() != ""||$("#field0075").val() != ""||$("#field0076").val() != "";
+			var jf = $("input[name=field0057]:checked").attr("value");
+			if(typeof (jf) !="undefined" && jf!=""&&jf=="-1244957151022398219") {
+				var check = $("input[name=field0056]").is(":checked");
+				check = check || $("input[name=field0057]").is(":checked");
+				check = check || $("#field0071").val() != "" || $("#field0072").val() != "" || $("#field0073").val() != ""
+					|| $("#field0074").val() != "" || $("#field0075").val() != "" || $("#field0076").val() != "";
 
-			if(!check){
-				alert("【通话资费】选择通话资费变更，必须填写一个变更项");
-				return false;
+				if (!check) {
+					alert("【通话资费】选择通话资费变更，必须填写一个变更项");
+					return false;
+				}
 			}
 			return true;
 		}

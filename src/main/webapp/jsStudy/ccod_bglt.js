@@ -754,47 +754,55 @@ function BGLT() {
     BGLT.prototype.initHFZF = function(){
 
         if($("#field0196").is(":checked")){
-            $("#field0078").attr("disabled",false);//通话资费
-            $("#field0088").attr("disabled",false);//含多少分钟
-            $("#field0107").attr("disabled",false);//含多少分钟
-            $("input[name=field0079]").attr("disabled",false);//整体优惠 平均每坐席
-            $("#field0080").attr("disabled",false);//超出部分按照
+			$("input[name=field0076]").attr("disabled", false);
+			$("input[name=field0077]").attr("disabled", false);
+			var jf = $("input[name=field0077]:checked").attr("value");
+			if(typeof (jf) !="undefined" && jf!=""&&jf == "-1244957151022398219"){
+            	$("#field0078").attr("disabled",false);//通话资费
+            	$("#field0088").attr("disabled",false);//含多少分钟
+            	$("#field0107").attr("disabled",false);//含多少分钟
+            	$("input[name=field0079]").attr("disabled",false);//整体优惠 平均每坐席
+            	$("#field0080").attr("disabled",false);//超出部分按照
 
-            $("#field0081").attr("disabled",false);
-            $("#field0082").attr("disabled",false);
-            $("#field0083").attr("disabled",false);
-            $("#field0084").attr("disabled",false);
-            $("#field0085").attr("disabled",false);
-            $("#field0086").attr("disabled",false);
+            	$("#field0081").attr("disabled",false);
+            	$("#field0082").attr("disabled",false);
+            	$("#field0083").attr("disabled",false);
+            	$("#field0084").attr("disabled",false);
+            	$("#field0085").attr("disabled",false);
+            	$("#field0086").attr("disabled",false);
 
-            $("#field0078").css('background','#FCDD8B');//通话资费
-            $("#field0088").css('background','#FCDD8B');//含多少分钟
-            $("#field0107").css('background','#FCDD8B');//含多少分钟
-            $("#field0080").css('background','#FCDD8B');//超出部分按照
+            	$("#field0078").css('background','#FCDD8B');//通话资费
+            	$("#field0088").css('background','#FCDD8B');//含多少分钟
+            	$("#field0107").css('background','#FCDD8B');//含多少分钟
+            	$("#field0080").css('background','#FCDD8B');//超出部分按照
+       	 	}else {
+				$("#field0078").attr("disabled", true);//通话资费
+				$("#field0088").attr("disabled", true);//含多少分钟
+				$("#field0107").attr("disabled", true);//含多少分钟
+				$("input[name=field0079]").attr("disabled", true);//整体优惠 平均每坐席
+				$("#field0080").attr("disabled", true);//超出部分按照
+
+				$("#field0081").attr("disabled", true);
+				$("#field0082").attr("disabled", true);
+				$("#field0083").attr("disabled", true);
+				$("#field0084").attr("disabled", true);
+				$("#field0085").attr("disabled", true);
+				$("#field0086").attr("disabled", true);
+
+				$("#field0078").css('background', '');//通话资费
+				$("#field0088").css('background', '');//含多少分钟
+				$("#field0107").css('background', '');//含多少分钟
+				$("#field0080").css('background', '');//超出部分按照
+
+				$("#field0078").val('');//通话资费
+				$("#field0088").val('');//含多少分钟
+				$("#field0107").val('');//含多少分钟
+				$("#field0080").val('');//超出部分按照
+			}
         }else{
-            $("#field0078").attr("disabled",true);//通话资费
-            $("#field0088").attr("disabled",true);//含多少分钟
-            $("#field0107").attr("disabled",true);//含多少分钟
-            $("input[name=field0079]").attr("disabled",true);//整体优惠 平均每坐席
-            $("#field0080").attr("disabled",true);//超出部分按照
-
-            $("#field0081").attr("disabled",true);
-            $("#field0082").attr("disabled",true);
-            $("#field0083").attr("disabled",true);
-            $("#field0084").attr("disabled",true);
-            $("#field0085").attr("disabled",true);
-            $("#field0086").attr("disabled",true);
-
-            $("#field0078").css('background','');//通话资费
-            $("#field0088").css('background','');//含多少分钟
-            $("#field0107").css('background','');//含多少分钟
-            $("#field0080").css('background','');//超出部分按照
-
-			$("#field0078").val('');//通话资费
-			$("#field0088").val('');//含多少分钟
-			$("#field0107").val('');//含多少分钟
-			$("#field0080").val('');//超出部分按照
-        }
+			$("input[name=field0076]").attr("disabled", true);
+			$("input[name=field0077]").attr("disabled", true);
+		}
     };
 
     /**
@@ -802,29 +810,32 @@ function BGLT() {
      */
     BGLT.prototype.validateHFZF = function(){
         if($("#field0196").is(":checked")){
-            var thzf = $("#field0078");//通话资费
-            var han = $("#field0088");//含多少分钟
-            var yuan = $("#field0107");//含多少分钟
-            var ztyh = $("input[name=field0079]:checked");//整体优惠 平均每坐席
-            var chaochu = $("#field0080");//超出部分按照
+			var jf = $("input[name=field0077]:checked").attr("value");
+			if(typeof (jf) !="undefined" && jf!=""&&jf == "-1244957151022398219") {
+				var thzf = $("#field0078");//通话资费
+				var han = $("#field0088");//含多少分钟
+				var yuan = $("#field0107");//含多少分钟
+				var ztyh = $("input[name=field0079]:checked");//整体优惠 平均每坐席
+				var chaochu = $("#field0080");//超出部分按照
 
 
-            var check =thzf.val() == "" && han.val() == "" && yuan.val() == ""
-                && typeof(ztyh.val()) == "undefined" && chaochu.val() == "" ;
+				var check = thzf.val() == "" && han.val() == "" && yuan.val() == ""
+					&& typeof(ztyh.val()) == "undefined" && chaochu.val() == "";
 
-            var ivrsh = $("#field0081");
-            var ivrct = $("#field0082");
-            var zxsh = $("#field0083");
-            var zxct = $("#field0084");
-            var whsh = $("#field0085");
-            var whct = $("#field0086");
+				var ivrsh = $("#field0081");
+				var ivrct = $("#field0082");
+				var zxsh = $("#field0083");
+				var zxct = $("#field0084");
+				var whsh = $("#field0085");
+				var whct = $("#field0086");
 
-            check = check && (!ivrsh.is(":checked")&&!ivrct.is(":checked")&&!zxsh.is(":checked")&&!zxct.is(":checked")&&!whsh.is(":checked")&&!whct.is(":checked"));
+				check = check && (!ivrsh.is(":checked") && !ivrct.is(":checked") && !zxsh.is(":checked") && !zxct.is(":checked") && !whsh.is(":checked") && !whct.is(":checked"));
 
-            if(check){
-                alert("【定制化资费】选择话费资费变更，至少填写定制化资费里的一项");
-                return false;
-            }
+				if (check) {
+					alert("【定制化资费】选择话费资费变更，至少填写定制化资费里的一项");
+					return false;
+				}
+			}
         }
         return true;
     };
@@ -1039,7 +1050,7 @@ function BGLT() {
 	BGLT.prototype.events = {
 		"field0034":{event:"click",func:"ywxt"},
 		"field0038":{event:"click",func:"zdxq"},
-		"field0077":{event:"click",func:"jfms"}
+		//"field0077":{event:"click",func:"jfms"}
 	};
 
 	/** **************工具函数********************** */
