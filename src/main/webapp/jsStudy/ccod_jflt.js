@@ -289,11 +289,11 @@ function JFLT() {
 			$("#field0142").focus();
 			return false;
 		}
-		if(outNum1.val() == '' && outNum2.val() == '' && outNum3.val() == '' && attachmentChilds.length==0){
+	/*	if(outNum1.val() == '' && outNum2.val() == '' && outNum3.val() == '' && attachmentChilds.length==0){
 			alert("【外显号码】外显号码及附件必须填写一项，请选择其中一项后再次上传！");
 			$("#field0142").focus();
 			return false;
-		}
+		}*/
 		return true;
 	};
 

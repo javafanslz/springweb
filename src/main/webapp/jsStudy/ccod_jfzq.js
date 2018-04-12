@@ -329,21 +329,29 @@ function JFZQ() {
 		//外显附件
 		var attachment = $("#field0029_span").children(":first").next();
 		var attachmentChilds = attachment.children();
+
+		//外显反馈
+		var feedBack = $("#field0123_span").children(":first").next();
+		var feedBackChilds = feedBack.children();
+
 		//外显号与附件不能同时存在
 		if((outNum1.val() != '' || outNum2.val() != '' || outNum3.val() != '') && attachmentChilds.length!=0){
 			alert("【外显号码】外显号码及附件不能同时上传，请选择其中一项后再次上传！");
 			$("#field0142").focus();
 			return false;
 		}
-		if(outNum1.val() == '' && outNum2.val() == '' && outNum3.val() == '' && attachmentChilds.length==0){
+		/*if(outNum1.val() == '' && outNum2.val() == '' && outNum3.val() == '' && attachmentChilds.length==0){
 			alert("【外显号码】外显号码及附件必须填写一项，请选择其中一项后再次上传！");
 			$("#field0142").focus();
 			return false;
-		}
+		}*/
 		if((outNum1.val() != '' || outNum2.val() != '' || outNum3.val() != '') || attachmentChilds.length!=0){
-			alert("【外显反馈结果】填写外显反馈结果，必填外显反馈结果！");
-			$("#field0142").focus();
-			return false;
+			if(feedBackChilds.length == 0){
+				alert("【外显反馈结果】填写外显反馈结果，必填外显反馈结果！");
+				return false;
+			}else{
+				return true;
+			}
 		}
 		return true;
 	};
