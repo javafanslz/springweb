@@ -122,9 +122,9 @@ function JFLT() {
 	};
 	
 	JFLT.prototype.initTrObjs = function() {
-		$("#field0155").css('background','#FCDD8B');//ivr现有数量
+		/*$("#field0155").css('background','#FCDD8B');//ivr现有数量
 		$("#field0157").css('background','#FCDD8B');//自动外拨已有试用数量
-		$("#field0161").css('background','#FCDD8B');//坐席(无终端)含录音及报表现有试用数量
+		$("#field0161").css('background','#FCDD8B');//坐席(无终端)含录音及报表现有试用数量*/
 		$("#field0069").css('background','#FCDD8B');//自动语音服务基本服务费折扣单价
 		$("#field0073").css('background','#FCDD8B');//人工服务基本服务费折扣单价
 		$("#field0145_span").parent().css('background','#FCDD8B');//sip电话
@@ -414,7 +414,7 @@ function JFLT() {
 	 */
 	JFLT.prototype.validate_fwzf = function(){
 		//一些必填项
-		if($("#field0155").val() == ""){
+		/*if($("#field0155").val() == ""){
 			alert("【服务资费】请填写IVR现有数量");
 			$("#field0155").focus();
 			return false;
@@ -428,7 +428,7 @@ function JFLT() {
 			alert("【服务资费】坐席(无终端)含录音及报表现有试用数量");
 			$("#field0161").focus();
 			return false;
-		}
+		}*/
 		if($("#field0069").val() == ""){
 			alert("【服务资费】自动语音服务基本服务费折扣单价");
 			$("#field0069").focus();
