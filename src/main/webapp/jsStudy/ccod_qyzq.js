@@ -140,10 +140,17 @@ function QYZQ() {
 		//field0017
 		var platForm = $("#field0017").html();
 		var title = $("#subject").val();
+		//field0039 新平台
+		var newPlateForm  = $("#field0039").val();
 		if(platForm != "" && typeof(platForm)!="undefined"){
 			if(title.indexOf("直签")!= -1){
-				if(platForm.indexOf("联通合作客户") !=-1){
+				if(platForm.indexOf("联通") !=-1){
 					alert("直签工单不能选择联通合作客户");
+					return false;
+				}
+				if(newPlateForm.indexOf("联通") !=-1){
+					alert("直签工单不能选择联通合作客户");
+					$("#field0039").focus();
 					return false;
 				}
 			}
