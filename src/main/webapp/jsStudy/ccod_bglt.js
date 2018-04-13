@@ -163,8 +163,6 @@ function BGLT() {
     BGLT.prototype.validateState = function(){
         var state = $("#field0189").text();
         var selectState = $("#field0185_txt").val();
-        console.log(state);
-        console.log(selectState);
         if(state != ''&&typeof(state)!="undefined"){
             if(state.indexOf("业务终止")!=-1){
                 alert("【状态变更】当前企业已经终止业务，不能发送工单！！");
