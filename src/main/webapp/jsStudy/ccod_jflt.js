@@ -91,7 +91,7 @@ function JFLT() {
 		if(!_jflt.validate_YQEmail()){
 			return false;
 		}
-
+		return true;
 	};
 
 	//所属平台行
@@ -515,9 +515,7 @@ function JFLT() {
 				return false;
 			}
 		}
-
 		return true;
-
 	};
 
 	/**
@@ -526,16 +524,37 @@ function JFLT() {
 	JFLT.prototype.validate_dzhzf = function(){
 		var thzf = $("#field0091");//通话资费
 		var han = $("#field0101");//含多少分钟
+		var yuan = $("#field0088");//含多少分钟
 		var ztyh = $("input[name=field0092]:checked");//整体优惠 平均每坐席
 		var chaochu = $("#field0093");//超出部分按照
 
-		if(thzf.val() != "" || han.val() != "" || typeof(ztyh.val()) != "undefined" || chaochu.val() != ""){
+		var group1 = thzf.val() != "";
+		var group2 = han.val() != "" && yuan.val() != ""&&typeof(ztyh.val()) != "undefined" && ztyh.val() != ""&&chaochu.val() != "";
+		//只能填写一个
+		if(group1 && group2){
+			alert("【定制化资费】定制化资费第一行与其余行不能同时填写");
+			return false;
+		}
+		//都没填写
+		if(!group1 && !group2){
+			alert("【定制化资费】定制化资费为一组必填");
+			return false;
+		}
+		if(group1){
+			return true;
+		}
+
+		if(!group2){
+			alert("【定制化资费】除通话资费其余的必须填写");
+			return false;
+		}
+		/*if(thzf.val() != "" || han.val() != "" || typeof(ztyh.val()) != "undefined" || chaochu.val() != ""){
 			if(!(thzf.val() != "" && han.val() != "" && typeof(ztyh.val()) != "undefined" && chaochu.val() != "")){
 				alert("【定制化资费】定制化资费中如果填写一项，就得全部填写");
 				thzf.focus();
 				return false;
 			}
-		}
+		}*/
 		return true;
 	};
 	/**
