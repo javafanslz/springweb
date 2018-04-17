@@ -522,31 +522,36 @@ function JFLT() {
 	 *验证定制化资费，填写其中一个内容，必须全部全部填写（一组非必填）
 	 */
 	JFLT.prototype.validate_dzhzf = function(){
-		var thzf = $("#field0091");//通话资费
-		var han = $("#field0101");//含多少分钟
-		var yuan = $("#field0088");//含多少分钟
-		var ztyh = $("input[name=field0092]:checked");//整体优惠 平均每坐席
-		var chaochu = $("#field0093");//超出部分按照
+		var dizhiRadio = $("input[name=field0090]:checked").val();
+		if(typeof (dizhiRadio) !="undefined" && dizhiRadio == "-1244957151022398219"){
+			var thzf = $("#field0091");//通话资费
+			var han = $("#field0101");//含多少分钟
+			var yuan = $("#field0088");//含多少分钟
+			var ztyh = $("input[name=field0092]:checked");//整体优惠 平均每坐席
+			var chaochu = $("#field0093");//超出部分按照
 
-		var group1 = thzf.val() != "";
-		var group2 = han.val() != "" && yuan.val() != ""&&typeof(ztyh.val()) != "undefined" && ztyh.val() != ""&&chaochu.val() != "";
-		//只能填写一个
-		if(group1 && group2){
-			alert("【定制化资费】定制化资费第一行与其余行不能同时填写");
-			return false;
-		}
-		//都没填写
-		if(!group1 && !group2){
-			alert("【定制化资费】定制化资费为一组必填");
-			return false;
-		}
-		if(group1){
+			var group1 = thzf.val() != "";
+			var group2 = han.val() != "" && yuan.val() != ""&&typeof(ztyh.val()) != "undefined" && ztyh.val() != ""&&chaochu.val() != "";
+			var group2_2 = han.val() != "" || yuan.val() != ""||typeof(ztyh.val()) != "undefined" || ztyh.val() != ""||chaochu.val() != "";
+			//只能填写一个
+			if(group1 && group2_2){
+				alert("【定制化资费】定制化资费第一行与其余行不能同时填写");
+				return false;
+			}
+			//都没填写
+			if(!group1 && !group2){
+				alert("【定制化资费】定制化资费为一组必填");
+				return false;
+			}
+			if(group1){
+				return true;
+			}
+
+			if(!group2){
+				alert("【定制化资费】除通话资费其余的必须填写");
+				return false;
+			}
 			return true;
-		}
-
-		if(!group2){
-			alert("【定制化资费】除通话资费其余的必须填写");
-			return false;
 		}
 		/*if(thzf.val() != "" || han.val() != "" || typeof(ztyh.val()) != "undefined" || chaochu.val() != ""){
 			if(!(thzf.val() != "" && han.val() != "" && typeof(ztyh.val()) != "undefined" && chaochu.val() != "")){
