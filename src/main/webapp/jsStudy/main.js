@@ -55,11 +55,11 @@ function qnValidate() {
 	var valiResult = true;
 	var title = $("#subject").val();
 
-	if (title.indexOf("上线计费工单-联通") != -1 && qnObjs.jflt) {
+	if (title.indexOf("上线计 费工单-联通") != -1 && qnObjs.jflt) {
 		valiResult = qnObjs.jflt.validate();
-	} else if (title.indexOf("计费工单-直签") != -1 && qnObjs.jfzq) {
+	} else if (title.indexOf("上线计test费工单-直签") != -1 && qnObjs.jfzq) {
 		valiResult = qnObjs.jfzq.validate();
-	} else if (title.indexOf("试用工单-直签") != -1 && qnObjs.syzq) {
+	} else if (title.indexOf("试test用工单-直签") != -1 && qnObjs.syzq) {
 		valiResult = qnObjs.syzq.validate();
 	}else if(title.indexOf("试用工单-联通")!= -1 && qnObjs.sylt){
 		valiResult = qnObjs.sylt.validate();
@@ -73,7 +73,7 @@ function qnValidate() {
         valiResult = qnObjs.yqlt.validate();
     }  else if (title.indexOf("业务变更单-联通") != -1 && qnObjs.bglt) {
 		valiResult = qnObjs.bglt.validate();
-	} else if (title.indexOf("业务变更单-直签") != -1 && qnObjs.bgzq) {
+	} else if (title.indexOf("业务变test更单-直签") != -1 && qnObjs.bgzq) {
 		valiResult = qnObjs.bgzq.validate();
 	}
 	return valiResult;

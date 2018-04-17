@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	try {
 		var title = $("#subject").val();
-		if (title && title.indexOf("计费工单-直签") != -1) {
+		if (title && title.indexOf("上线计test费工单-直签") != -1) {
 			var jfzq = new JFZQ();
 			qnObjs.jfzq = jfzq;
 			jfzq.initPage(jfzq);
@@ -90,7 +90,7 @@ function JFZQ() {
 		if(!_jfzq.validate_dzhzf()){
 			return false;
 		}
-
+		return true;
 	};
 
 	/**
@@ -147,8 +147,8 @@ function JFZQ() {
 				$("#field0180").css('background','');
 				$("#field0177").css('background','');
 				$("#field0182").css('background','');
-				$("#field0059").css('background','#FCDD8B');
-				$("#field0077").css('background','#FCDD8B');
+				$("#field0059").css('background','');
+				$("#field0077").css('background','');
 			}
 		});
 	};
@@ -489,15 +489,15 @@ function JFZQ() {
 		var kejiaPrice = $("#field0177").val();
 		var wbjqrPrice=  $("#field0182").val();
 
-		var ivrTest = (ivrPrice!=""&& ivrVal !="") || (!ivrPrice == "" &&ivrVal == "");
-		var ttsTest = (ttsPrice!=""&& ttsVal !="") || (!ttsPrice ==""&&ttsVal == "");
-		var zdwbTest = (zdwbPrice != ""&& zdwbVal !="") || (!zdwbPrice==""&&zdwbVal == "");
-		var yzdTest = (yzdPrice&& yzdVal !="") || (!yzdPrice == ""&&yzdVal == "");
-		var tjfxTest = (tjfxPrice!=""&& tjfxVal !="") || (!tjfxPrice == ""&&tjfxVal == "");
-		var zxlyTest = (zxlyPrice!=""&& zxlyVal !="") || (!zxlyPrice == ""&&zxlyVal == "");
-		var wzdTest = (wzdPrice!=""&& wzdVal !="") || (!wzdPrice == ""&&wzdVal == "");
-		var kejiaTest = (kejiaPrice!=""&& kejiaVal !="") || (!kejiaPrice == ""&&kejiaVal == "");
-		var wbjqrTest = (wbjqrPrice!=""&& wbjqrVal !="") || (!wbjqrPrice == ""&&wbjqrVal == "");
+		var ivrTest = (ivrPrice!=""&& ivrVal !="") || (ivrPrice == "" &&ivrVal == "");
+		var ttsTest = (ttsPrice!=""&& ttsVal !="") || (ttsPrice ==""&&ttsVal == "");
+		var zdwbTest = (zdwbPrice != ""&& zdwbVal !="") || (zdwbPrice==""&&zdwbVal == "");
+		var yzdTest = (yzdPrice&& yzdVal !="") || (yzdPrice == ""&&yzdVal == "");
+		var tjfxTest = (tjfxPrice!=""&& tjfxVal !="") || (tjfxPrice == ""&&tjfxVal == "");
+		var zxlyTest = (zxlyPrice!=""&& zxlyVal !="") || (zxlyPrice == ""&&zxlyVal == "");
+		var wzdTest = (wzdPrice!=""&& wzdVal !="") || (wzdPrice == ""&&wzdVal == "");
+		var kejiaTest = (kejiaPrice!=""&& kejiaVal !="") || (kejiaPrice == ""&&kejiaVal == "");
+		var wbjqrTest = (wbjqrPrice!=""&& wbjqrVal !="") || (wbjqrPrice == ""&&wbjqrVal == "");
 
 		if(!ivrTest){
 			alert("【服务资费信息】选择ivr最终数量和填写折扣单价必须同时填写或同时不填写");
@@ -544,22 +544,36 @@ function JFZQ() {
 	 *验证定制化资费，填写其中一个内容，必须全部全部填写（一组非必填）
 	 */
 	JFZQ.prototype.validate_dzhzf = function(){
-		var dzhzf = $("input[name=field0090]:checked").val();
-		if(typeof(dzhzf) == "undefined" || dzhzf == ""){
-			return true;
-		}
+
 		var thzf = $("#field0091");//通话资费
 		var han = $("#field0101");//含多少分钟
+		var yuan = $("#field0088");//含多少分钟
 		var ztyh = $("input[name=field0092]:checked");//整体优惠 平均每坐席
 		var chaochu = $("#field0093");//超出部分按照
 
-		if(thzf.val() != "" || han.val() != "" || typeof(ztyh.val()) != "undefined" || chaochu.val() != ""){
-			if(!(thzf.val() != "" && han.val() != "" && typeof(ztyh.val()) != "undefined" && chaochu.val() != "")){
-				alert("【定制化资费】定制化资费中如果填写一项，就得全部填写");
-				thzf.focus();
-				return false;
-			}
+
+		var group1 = thzf.val() != "";
+		var group2 = han.val() != "" && yuan.val() != ""&&typeof(ztyh.val()) != "undefined" && ztyh.val() != ""&&chaochu.val() != "";
+		var group2_2 = han.val() == ""&& yuan.val() == "" && ztyh.val() == ""&&chaochu.val() == "";
+		//只能填写一个
+		if(group1 && group2_2){
+			alert("【定制化资费】定制化资费第一行与其余行不能同时填写");
+			return false;
 		}
+		//都没填写
+		if(!group1 && !group2){
+			alert("【定制化资费】定制化资费为一组必填");
+			return false;
+		}
+		if(group1){
+			return true;
+		}
+
+		if(!group2){
+			alert("【定制化资费】除通话资费其余的必须填写");
+			return false;
+		}
+
 		return true;
 	};
 
@@ -818,10 +832,10 @@ function JFZQ() {
 		"field0036":{id : "field0036",	type : "text",		name : "业务系统类型其他文本框",initDisable:true},
 		"field0037":{id : "field0037",	type : "checkbox",	name : "有终端"},
 		"field0038":{id : "field0038",	type : "checkbox",	name : "无终端"},
-		"field0039":{id : "field0039",	type : "radio",		name : "CCEA",	value:"8254392202341730514",initDisable:true},
-		"field0039":{id : "field0039",	type : "radio",		name : "ADT",	value:"-4305093821079142156",initDisable:true},
-		"field0039":{id : "field0039",	type : "radio",		name : "OXC",	value:"-7530274332352494683",initDisable:true},
-		"field0039":{id : "field0039",	type : "radio",		name : "其他",	value:"-1122618658103079534",initDisable:true},
+		"field0039":{id : "field0039",	type : "radio",		name : "CCEA",	value:"8254392202341730514"},
+		"field0039":{id : "field0039",	type : "radio",		name : "ADT",	value:"-4305093821079142156"},
+		"field0039":{id : "field0039",	type : "radio",		name : "OXC",	value:"-7530274332352494683"},
+		"field0039":{id : "field0039",	type : "radio",		name : "其他",	value:"-1122618658103079534"},
 		"field0040":{id : "field0040",	type : "text",		name : "终端需求-其他文本框",initDisable:true},
 
 

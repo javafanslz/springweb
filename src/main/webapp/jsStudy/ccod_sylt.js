@@ -126,6 +126,9 @@ function SYLT(){
      * @returns {boolean}
      */
     SYLT.prototype.validate = function(){
+        if(!_sylt.validatePT()){
+            return false;
+        }
         if(!_sylt.validateEntId()){
             return false;
         }
@@ -145,6 +148,20 @@ function SYLT(){
             return false;
         }
         if(!_sylt.validateOtherText()){
+            return false;
+        }
+        return true;
+    };
+
+
+    /**
+     * 平台校验
+     * @returns {boolean}
+     */
+    SYLT.prototype.validatePT =function(){
+        var ptType = $("#field0017").val();
+        if(ptType.indexOf('联通') == -1){
+            alert("【平台类型】联通试用工单只能选择联通合作平台");
             return false;
         }
         return true;

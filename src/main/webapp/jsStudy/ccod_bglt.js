@@ -126,6 +126,9 @@ function BGLT() {
      * 校验
      */
 	BGLT.prototype.validate = function(){
+		if(!_bglt.validatePT()){
+			return false;
+		}
         if(!_bglt.validateState()){
             return false;
         }
@@ -155,6 +158,20 @@ function BGLT() {
         }
         return true;
     };
+
+	/**
+	 * 平台校验
+	 * @returns {boolean}
+	 */
+	BGLT.prototype.validatePT =function(){
+		var ptType = $("#field0019").html();
+		if(ptType.indexOf('联通') == -1){
+			alert("【平台类型】联通变更工单只能选择联通合作平台");
+			return false;
+		}
+		return true;
+	};
+
     /**
      * 校验企业当前状态
      * 业务终止：不允许发起任何类别的工单。仅在发起人处进行校验。

@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	try {
 		var title = $("#subject").val();
-		if (title && title.indexOf("上线计费工单-联通") != -1) {
+		if (title && title.indexOf("上线计 费工单-联通") != -1) {
 			var jflt = new JFLT();
 			qnObjs.jflt = jflt;
 			jflt.initPage(jflt);

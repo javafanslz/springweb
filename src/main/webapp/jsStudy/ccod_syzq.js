@@ -1,7 +1,7 @@
 $(document).ready(function() {
     try {
         var title = $("#subject").val();
-        if (title && title.indexOf("试用工单-直签") != -1) {
+        if (title && title.indexOf("试test用工单-直签") != -1) {
             var syzq = new SYZQ();
             qnObjs.syzq = syzq;
             syzq.initPage();
@@ -151,7 +151,7 @@ function SYZQ(){
      */
     SYZQ.prototype.validatePT =function(){
         var ptType = $("#field0016").html();
-        if(ptType == '联通合作运营平台'){
+        if(ptType.indexOf('联通') != -1){
             alert("【平台类型】直签试用工单不能选择联通合作平台");
             return false;
         }
@@ -406,9 +406,6 @@ function SYZQ(){
                 $("#field0017").attr("disabled",false);
             }else{
                 $("#field0017").attr("disabled",true);
-            }
-            if(ptType == '联通合作运营平台'){
-                alert("【平台类型】直签试用工单不能选择联通合作平台");
             }
             var pingtai = $("#field0017").val();
             if(pingtai.indexOf("CCOD4.5平台") != -1){

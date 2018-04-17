@@ -5,7 +5,7 @@
 $(document).ready(function() {
 	try {
 		var title = $("#subject").val();
-		if (title && title.indexOf("业务变更单-直签") != -1) {
+		if (title && title.indexOf("业务变test更单-直签") != -1) {
 			var bgzq = new BGZQ();
 			qnObjs.bgzq = bgzq;
 			bgzq.initPage(bgzq);
@@ -155,6 +155,20 @@ function BGZQ() {
 		}
         return true;
     };
+
+	/**
+	 * 平台校验
+	 * @returns {boolean}
+	 */
+	BGLT.prototype.validatePT =function(){
+		var ptType = $("#field0017").val();
+		if(ptType.indexOf('联通') != -1){
+			alert("【平台类型】直签变更工单不能选择联通合作平台");
+			return false;
+		}
+		return true;
+	};
+
     /**
      * 校验企业当前状态
      * 业务终止：不允许发起任何类别的工单。仅在发起人处进行校验。
@@ -649,7 +663,7 @@ function BGZQ() {
      */
     BGZQ.prototype.initDZH = function(){
 
-        if($("#field0140").is(":checked")){
+        if($("#field0138").is(":checked")){
             $("#field0058").attr("disabled",false);
             $("#field0081").attr("disabled",false);
             $("#field0068").attr("disabled",false);
@@ -700,14 +714,19 @@ function BGZQ() {
      * 计费需求变更
      */
     BGZQ.prototype.validateDZH = function(){
-        if($("#field0140").is(":checked")){
+        if($("#field0138").is(":checked")){
             var thzf = $("#field0058");//通话资费
             var han = $("#field0081");//含多少分钟
             var yuan = $("#field0068");//含多少分钟
             var ztyh = $("#field0059_txt");//整体优惠 平均每坐席
             var chaochu = $("#field0060");//超出部分按照
-
-
+			var group1 = thzf.val() != "";
+			var group2 = han.val() == "" && yuan == "" && ztyh.val() == "" && chaochu.val() == "";
+			var group2_1 = han.val() != "" || yuan != "" || ztyh.val() != "" || chaochu.val() != "";
+			if(group1 && group2_1){
+				alert("【定制化资费】通话资费和其余行不能同时填写");
+				return false;
+			}
             var check =thzf.val() == "" && han.val() == "" && yuan.val() == ""
                 && ztyh.val() == "" && chaochu.val() == "" ;
 
@@ -721,7 +740,7 @@ function BGZQ() {
             check = check && (!ivrsh.is(":checked")&&!ivrct.is(":checked")&&!zxsh.is(":checked")&&!zxct.is(":checked")&&!whsh.is(":checked")&&!whct.is(":checked"));
 
             if(check){
-                alert("【定制化资费】选择话费资费变更，至少填写定制化资费里的一项");
+                alert("【定制化资费】选择定制化资费变更，至少填写定制化资费里的一项");
                 return false;
             }
         }
@@ -732,11 +751,13 @@ function BGZQ() {
 	 * 话费资费变更
 	 */
 	BGZQ.prototype.initHFZF = function(){
-		if($("#field0138").is(":checked")){
-			$("input[name=field0056]").attr("disabled",false);
+		if($("#field0140").is(":checked")){
+			$("input[name=field0028]").attr("disabled",false);
+			$("input[name=field0030]").attr("disabled",false);
+		/*	$("input[name=field0056]").attr("disabled",false);
 			$("input[name=field0057]").attr("disabled",false);
-			var jf = $("input[name=field0057]:checked").attr("value");
-			if(typeof (jf) !="undefined" && jf!=""&&jf=="-1244957151022398219"){
+			var jf = $("input[name=field0057]:checked").attr("value");*/
+			/*if(typeof (jf) !="undefined" && jf!=""&&jf=="-1244957151022398219"){
 
 				$("#field0071").attr("disabled",false);
 				$("#field0072").attr("disabled",false);
@@ -772,29 +793,32 @@ function BGZQ() {
 				$("#field0074").val("");
 				$("#field0075").val("");
 				$("#field0076").val("");
-			}
+			}*/
 		}else{
-			$("input[name=field0056]").attr("disabled", true);
-			$("input[name=field0057]").attr("disabled", true);
+			$("input[name=field0028]").attr("disabled",true);
+			$("input[name=field0030]").attr("disabled",true);
+			/*$("input[name=field0056]").attr("disabled", true);
+			$("input[name=field0057]").attr("disabled", true);*/
 		}
 	};
 	/**
-	 * 校验话费资费变更
+	 * 校验计费需求
 	 */
 	BGZQ.prototype.validateHFZF = function(){
-		if($("#field0138").is(":checked")){
-			var jf = $("input[name=field0057]:checked").attr("value");
+		if($("#field0140").is(":checked")){
+			/*var jf = $("input[name=field0057]:checked").attr("value");
 			if(typeof (jf) !="undefined" && jf!=""&&jf=="-1244957151022398219") {
 				var check = $("input[name=field0056]").is(":checked");
 				check = check || $("input[name=field0057]").is(":checked");
 				check = check || $("#field0071").val() != "" || $("#field0072").val() != "" || $("#field0073").val() != ""
 					|| $("#field0074").val() != "" || $("#field0075").val() != "" || $("#field0076").val() != "";
-
+*/
+			var check = $("input[name=field0028]").is(":checked");
+			check = check ||$("input[name=field0030]").is(":checked");
 				if (!check) {
-					alert("【通话资费】选择通话资费变更，必须填写一个变更项");
+					alert("【计费需求】选择计费需求变更就必须选中一个单项按钮");
 					return false;
 				}
-			}
 			return true;
 		}
 		return true;
