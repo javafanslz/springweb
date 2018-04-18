@@ -121,11 +121,17 @@ function BGZQ() {
 		_bgzq.initFWZFType();
         _bgzq.initHFZF();
 		_bgzq.initDZH();
+		_bgzq.initJFSj();
+		_bgzq.initHT();
+		_bgzq.initName();
 	};
     /**
      * 校验
      */
 	BGZQ.prototype.validate = function(){
+		if(!_bgzq.validatePT()){
+			return false;
+		}
         if(!_bgzq.validateState()){
             return false;
         }
@@ -151,6 +157,15 @@ function BGZQ() {
             return false;
         }
         if(!_bgzq.validateDZH()){
+			return false;
+		}
+		if(!_bgzq.validateJFSj()){
+			return false;
+		}
+		if(!_bgzq.validateHT()){
+			return false;
+		}
+		if(!_bgzq.validateName()){
 			return false;
 		}
         return true;
@@ -197,6 +212,14 @@ function BGZQ() {
                 }
             }
         }
+        //计费时间
+		var timeCheck = selectState == "业务暂停"|| selectState == "业务恢复"||selectState == "业务终止";
+		if(timeCheck){
+			if($("#field0078").val() == ""){
+				alert("【计费需求】请填写计费时间");
+				return false;
+			}
+		}
         return true;
     };
 
@@ -836,6 +859,105 @@ function BGZQ() {
 					return false;
 				}
 			return true;
+		}
+		return true;
+	};
+
+	/**
+	 * 初始化计费时间
+	 */
+	BGZQ.prototype.initJFSj = function(){
+		var check = $("#field0130").is(":checked");
+		check = check || $("#field0134").is(":checked");
+		check = check || $("#field0138").is(":checked");
+		check = check || $("#field0140").is(":checked");
+
+		if(check){
+			$("#field0078").attr("disabled",false);
+			$("#field0078").css('background','#FCDD8B');
+		}else{
+			$("#field0078").attr("disabled",true);
+			$("#field0078").css('background','');
+			$("#field0078").val("");
+		}
+	};
+	/**
+	 * 校验计费时间
+	 */
+	BGZQ.prototype.validateJFSj = function(){
+		var check = $("#field0130").is(":checked");
+		check = check || $("#field0134").is(":checked");
+		check = check || $("#field0138").is(":checked");
+		check = check || $("#field0140").is(":checked");
+
+		if(check){
+			if($("#field0078").val() == ""){
+				alert("【计费需求】请填写计费需求中的计费时间");
+				$("#field0078").focus();
+				return false;
+			}
+		}
+		return true;
+	};
+
+	/**
+	 * 初始化合同
+	 */
+	BGZQ.prototype.initHT = function(){
+
+		var check = $("#field0139").is(":checked");
+
+		if(check){
+			$("#field0010").attr("disabled",false);
+			$("#field0010").css('background','#FCDD8B');
+		}else{
+			$("#field0010").attr("disabled",true);
+			$("#field0010").val("");
+		}
+	};
+	/**
+	 * 校验合同
+	 */
+	BGZQ.prototype.validateHT = function(){
+		var check = $("#field0139").is(":checked");
+
+		if(check){
+			if($("#field0010").val() == ""){
+				alert("【合同变更】请填写合同编号");
+				$("#field0010").focus();
+				return false;
+			}
+		}
+		return true;
+	};
+
+	/**
+	 * 初始化客户名称
+	 */
+	BGZQ.prototype.initName = function(){
+
+		var check = $("#field0128").is(":checked");
+
+		if(check){
+			$("#field0012").attr("disabled",false);
+			$("#field0012").css('background','#FCDD8B');
+		}else{
+			$("#field0012").attr("disabled",true);
+			$("#field0012").val("");
+		}
+	};
+	/**
+	 * 校验客户名称
+	 */
+	BGZQ.prototype.validateName = function(){
+		var check = $("#field0128").is(":checked");
+
+		if(check){
+			if($("#field0012").val() == ""){
+				alert("【合同变更】请填写合同编号");
+				$("#field0012").focus();
+				return false;
+			}
 		}
 		return true;
 	};

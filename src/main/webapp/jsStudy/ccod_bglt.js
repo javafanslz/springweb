@@ -121,6 +121,7 @@ function BGLT() {
 		_bglt.initFWZFNum();
 		_bglt.initFWZFType();
         _bglt.initHFZF();
+		_bglt.initName();
 	};
     /**
      * 校验
@@ -156,6 +157,9 @@ function BGLT() {
         if(!_bglt.validateHFZF()){
             return false;
         }
+		if(!_bglt.validateName()){
+			return false;
+		}
         return true;
     };
 
@@ -200,6 +204,14 @@ function BGLT() {
                 }
             }
         }
+		//计费时间
+		var timeCheck = selectState == "业务暂停"|| selectState == "业务恢复"||selectState == "业务终止";
+		if(timeCheck){
+			if($("#field0078").val() == ""){
+				alert("【计费需求】请填写计费时间");
+				return false;
+			}
+		}
         return true;
     };
 
@@ -918,6 +930,37 @@ function BGLT() {
         return true;
     };*/
 
+	/**
+	 * 初始化客户名称
+	 */
+	BGLT.prototype.initName = function(){
+
+		var check = $("#field0186").is(":checked");
+
+		if(check){
+			$("#field0012").attr("disabled",false);
+			$("#field0012").css('background','#FCDD8B');
+		}else{
+			$("#field0012").attr("disabled",true);
+			$("#field0012").css('background','');
+			$("#field0012").val("");
+		}
+	};
+	/**
+	 * 校验客户名称
+	 */
+	BGLT.prototype.validateName = function(){
+		var check = $("#field0186").is(":checked");
+
+		if(check){
+			if($("#field0012").val() == ""){
+				alert("【合同变更】请填写合同编号");
+				$("#field0012").focus();
+				return false;
+			}
+		}
+		return true;
+	};
 
 	/**
 	 * 设置所有单选 点击选中再点击取消
