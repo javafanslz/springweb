@@ -943,7 +943,7 @@ function BGLT() {
 		}else{
 			$("#field0012").attr("disabled",true);
 			$("#field0012").css('background','');
-			$("#field0012").val("");
+			$("#field0012").html("");
 		}
 	};
 	/**
@@ -953,7 +953,7 @@ function BGLT() {
 		var check = $("#field0186").is(":checked");
 
 		if(check){
-			if($("#field0012").val() == ""){
+			if($("#field0012").html() == ""){
 				alert("【合同变更】请填写合同编号");
 				$("#field0012").focus();
 				return false;

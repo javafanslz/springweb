@@ -175,7 +175,7 @@ function BGZQ() {
 	 * 平台校验
 	 * @returns {boolean}
 	 */
-	BGLT.prototype.validatePT =function(){
+	BGZQ.prototype.validatePT =function(){
 		var ptType = $("#field0017").val();
 		if(ptType.indexOf('联通') != -1){
 			alert("【平台类型】直签变更工单不能选择联通合作平台");
@@ -878,7 +878,6 @@ function BGZQ() {
 		}else{
 			$("#field0078").attr("disabled",true);
 			$("#field0078").css('background','');
-			$("#field0078").val("");
 		}
 	};
 	/**
