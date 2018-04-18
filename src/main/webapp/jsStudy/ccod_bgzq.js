@@ -720,23 +720,39 @@ function BGZQ() {
             var yuan = $("#field0068");//含多少分钟
             var ztyh = $("#field0059_txt");//整体优惠 平均每坐席
             var chaochu = $("#field0060");//超出部分按照
-			var group1 = thzf.val() != "";
-			var group2 = han.val() == "" && yuan == "" && ztyh.val() == "" && chaochu.val() == "";
-			var group2_1 = han.val() != "" || yuan != "" || ztyh.val() != "" || chaochu.val() != "";
-			if(group1 && group2_1){
+
+			var group1 = thzf.val() == "";
+			//有一个不为空
+			var group2 = han.val() != "" || yuan.val() != ""||ztyh.val() != "" ||chaochu.val() != "";
+			//有一个为空
+			var group2_1= han.val() == "" || yuan.val() == ""||ztyh.val() == "" ||chaochu.val() == "";
+			//全部为空
+			var group2_2 = han.val() == ""&& yuan.val() == "" && ztyh.val() == "" &&chaochu.val() == "";
+			//一组必填，两个都不填写
+			/*if(group1 && group2_2){
+			 alert("【定制化资费】请填写定制化资费");
+			 return false;
+			 }*/
+			//两个同时填写
+			if(!group1 && group2){
 				alert("【定制化资费】通话资费和其余行不能同时填写");
 				return false;
 			}
-            var check =thzf.val() == "" && han.val() == "" && yuan.val() == ""
-                && ztyh.val() == "" && chaochu.val() == "" ;
 
-            var ivrsh = $("#field0061");
+			//填写了group2但是没有填写完
+			if(group1 && group2_1 && group2){
+				alert("【定制化资费】除了通话资费的其余行需要全部填写");
+				return false;
+			}
+
+			var ivrsh = $("#field0061");
             var ivrct = $("#field0062");
             var zxsh =  $("#field0063");
             var zxct =  $("#field0064");
             var whsh =  $("#field0065");
             var whct =  $("#field0066");
 
+			var check = group1 && group2_2;
             check = check && (!ivrsh.is(":checked")&&!ivrct.is(":checked")&&!zxsh.is(":checked")&&!zxct.is(":checked")&&!whsh.is(":checked")&&!whct.is(":checked"));
 
             if(check){

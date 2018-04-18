@@ -834,8 +834,30 @@ function BGLT() {
 				var chaochu = $("#field0080");//超出部分按照
 
 
-				var check = thzf.val() == "" && han.val() == "" && yuan.val() == ""
-					&& typeof(ztyh.val()) == "undefined" && chaochu.val() == "";
+				var group1 = thzf.val() == "";
+				//有一个不为空
+				var group2 = han.val() != "" || yuan.val() != ""||typeof(ztyh.val()) != "undefined" ||chaochu.val() != "";
+				//有一个为空
+				var group2_1= han.val() == "" || yuan.val() == ""||typeof(ztyh.val()) == "undefined" ||chaochu.val() == "";
+				//全部为空
+				var group2_2 = han.val() == ""&& yuan.val() == "" && typeof(ztyh.val()) == "undefined" &&chaochu.val() == "";
+				//一组必填，两个都不填写
+				/*if(group1 && group2_2){
+					alert("【定制化资费】请填写定制化资费");
+					return false;
+				}*/
+				//两个同时填写
+				if(!group1 && group2){
+					alert("【定制化资费】通话资费和其余行不能同时填写");
+					return false;
+				}
+				//校验group2是否全部填写
+				//没填写group1
+				if(group1 && group2_1 && group2){
+					alert("【定制化资费】除了通话资费的其余行需要全部填写");
+					return false;
+				}
+
 
 				var ivrsh = $("#field0081");
 				var ivrct = $("#field0082");
@@ -844,7 +866,8 @@ function BGLT() {
 				var whsh = $("#field0085");
 				var whct = $("#field0086");
 
-				check = check && (!ivrsh.is(":checked") && !ivrct.is(":checked") && !zxsh.is(":checked") && !zxct.is(":checked") && !whsh.is(":checked") && !whct.is(":checked"));
+				var check = group1 && group2_2;
+				 check =  check && (!ivrsh.is(":checked") && !ivrct.is(":checked") && !zxsh.is(":checked") && !zxct.is(":checked") && !whsh.is(":checked") && !whct.is(":checked"));
 
 				if (check) {
 					alert("【定制化资费】选择话费资费变更，至少填写定制化资费里的一项");
