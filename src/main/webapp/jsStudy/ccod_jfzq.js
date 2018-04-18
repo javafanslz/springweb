@@ -552,28 +552,29 @@ function JFZQ() {
 		var chaochu = $("#field0093");//超出部分按照
 
 
-		var group1 = thzf.val() != "";
-		var group2 = han.val() != "" && yuan.val() != ""&&typeof(ztyh.val()) != "undefined" && ztyh.val() != ""&&chaochu.val() != "";
-		var group2_2 = han.val() == ""&& yuan.val() == "" && ztyh.val() == ""&&chaochu.val() == "";
-		//只能填写一个
+		var group1 = thzf.val() == "";
+		//有一个不为空
+		var group2 = han.val() != "" || yuan.val() != ""||typeof(ztyh.val()) != "undefined" ||chaochu.val() != "";
+		//有一个为空
+		var group2_1= han.val() == "" || yuan.val() == ""||typeof(ztyh.val()) == "undefined" ||chaochu.val() == "";
+		//全部为空
+		var group2_2 = han.val() == ""&& yuan.val() == "" && typeof(ztyh.val()) == "undefined" &&chaochu.val() == "";
+		//一组必填，两个都不填写
 		if(group1 && group2_2){
-			alert("【定制化资费】定制化资费第一行与其余行不能同时填写");
+			alert("【定制化资费】请填写定制化资费");
 			return false;
 		}
-		//都没填写
-		if(!group1 && !group2){
-			alert("【定制化资费】定制化资费为一组必填");
+		//两个同时填写
+		if(!group1 && group2){
+			alert("【定制化资费】通话资费和其余行不能同时填写");
 			return false;
 		}
-		if(group1){
-			return true;
-		}
-
-		if(!group2){
-			alert("【定制化资费】除通话资费其余的必须填写");
+		//校验group2是否全部填写
+		//没填写group1
+		if(group1 && group2_1){
+			alert("【定制化资费】除了通话资费的其余行需要全部填写");
 			return false;
 		}
-
 		return true;
 	};
 
