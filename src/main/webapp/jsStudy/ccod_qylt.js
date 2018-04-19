@@ -61,9 +61,9 @@ function QYLT() {
 		if (!_qylt.validate_NewJFNumber()) {
 			return false;
 		}
-		if(!_qylt.validatePlatform()){
+		/*if(!_qylt.validatePlatform()){
 			return false;
-		}
+		}*/
 		return true;
 	};
 	
@@ -159,7 +159,7 @@ function QYLT() {
 				$("#field0039").attr("disabled",true);
 			}
 			//校验平台和选择的企业之间的关系
-			_qylt.validatePlatform();
+			//_qylt.validatePlatform();
 		});
 	};
 	

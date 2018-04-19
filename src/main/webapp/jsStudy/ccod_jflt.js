@@ -186,7 +186,7 @@ function JFLT() {
 	 * */
 	JFLT.prototype.validate_ptlx = function(e) {
 		var shpt=$("#field0017").val(); //所属平台
-		var ptlx=$("#field0016").text(); //平台类型
+		var ptlx=$("#field0016").html(); //平台类型
 
 		if(ptlx=="未验收平台" && shpt ==""){
 			alert("【所属平台】平台类型为未验收平台时,请填写所属平台！");
@@ -197,8 +197,8 @@ function JFLT() {
 			$("#field0017").css('background','#FFFFFF');
 		}
 
-		if(shpt != "" && shpt.indexOf("联通")==-1){
-			alert("【所属平台】直签工单不能选择联通合作客户！");
+		if(ptlx != "" && ptlx.indexOf("合作")==-1){
+			alert("【所属平台】联通合作客户只能选择联通合作客户！");
 			return false;
 		}
 		return true;

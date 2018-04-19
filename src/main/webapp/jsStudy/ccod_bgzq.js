@@ -180,7 +180,7 @@ function BGZQ() {
 	 */
 	BGZQ.prototype.validatePT =function(){
 		var ptType = $("#field0014").html();
-		if(ptType != "" && ptType.indexOf('联通合作运营平台') != -1){
+		if(ptType != "" &&ptType.indexOf('合作') != -1){
 			alert("【平台类型】直签变更工单不能选择联通合作平台");
 			return false;
 		}
@@ -193,7 +193,7 @@ function BGZQ() {
 	 */
 	BGZQ.prototype.validateFZQD =function(){
 		var qudao = $("#field0017").html();
-		if(qudao!= "" && qudao.indexOf('直签客户') == -1){
+		if(qudao!= "" && qudao.indexOf('联通合作客户') != -1){
 			alert("【发展渠道】直签工单只能选择直签发展客户");
 			return false;
 		}
@@ -911,7 +911,6 @@ function BGZQ() {
 		if(check){
 			if($("#field0078").val() == ""){
 				alert("【计费需求】请填写计费需求中的计费时间");
-				$("#field0078").focus();
 				return false;
 			}else{
 				var userTime = $("#field0078").val();
@@ -920,8 +919,9 @@ function BGZQ() {
 					return false;
 				}
 				var arys= userTime.split('-');
-				var d = new Date(arys[0], arys[1], arys[2]);
-				var curDate=new Date();
+				var month =  arys[1] -1;
+				var d = new Date(arys[0], month, arys[2]).format("yyyy-MM-dd");
+				var curDate=new Date().format("yyyy-MM-dd");
 				if(d < curDate){
 					alert("【操作日期】操作日期不能小于当前日期");
 					return false;
@@ -975,7 +975,7 @@ function BGZQ() {
 			$("#field0009").css('background','#FCDD8B');
 		}else{
 			$("#field0009").attr("disabled",true);
-			$("#field0009").val("");
+			//$("#field0009").val("");
 		}
 	};
 	/**

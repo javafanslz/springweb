@@ -151,7 +151,7 @@ function SYZQ(){
      */
     SYZQ.prototype.validatePT =function(){
         var ptType = $("#field0016").html();
-        if(ptType != "" && ptType.indexOf('联通') != -1){
+        if(ptType != "" && ptType.indexOf('合作') != -1){
             alert("【平台类型】直签试用工单不能选择联通合作平台");
             return false;
         }

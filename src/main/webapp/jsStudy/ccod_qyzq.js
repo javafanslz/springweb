@@ -100,7 +100,7 @@ function QYZQ() {
 				$("#field0054").attr("disabled",false);
 			}
 			//校验选择的企业和工单类型是否匹配
-			_qyzq.validatePlatform();
+			//_qyzq.validatePlatform();
 		});
 	};
 
@@ -112,9 +112,9 @@ function QYZQ() {
 			return false;
 		}
 		//联通工单只能选择联通企业  直签工单只能选择直签企业
-		if(!_qyzq.validatePlatform()){
+	/*	if(!_qyzq.validatePlatform()){
 			return false;
-		}
+		}*/
 		return true;
 	};
 	

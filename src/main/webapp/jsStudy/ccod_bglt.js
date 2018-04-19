@@ -175,8 +175,8 @@ function BGLT() {
 	 * @returns {boolean}
 	 */
 	BGLT.prototype.validatePT =function(){
-		var ptType = $("#field0014").html();
-		if(ptType!= "" && ptType.indexOf('联通合作运营平台') == -1){
+		var ptType = $("#field0015").html();
+		if(ptType!= "" && ptType.indexOf('合作') == -1){
 			alert("【平台类型】联通变更工单只能选择联通合作平台");
 			return false;
 		}
@@ -188,8 +188,8 @@ function BGLT() {
      * @returns {boolean}
      */
     BGLT.prototype.validateFZQD =function(){
-        var qudao = $("#field0017").html();
-        if(qudao!= "" && qudao.indexOf('直签客户') != -1){
+        var qudao = $("#field0019").html();
+        if(qudao!= "" && qudao.indexOf('联通合作客户') == -1){
             alert("【发展渠道】联通工单不能选择直签发展的客户");
             return false;
         }
@@ -224,14 +224,14 @@ function BGLT() {
                 }
             }
         }
-		/*//计费时间
-		var timeCheck = selectState == "业务暂停"|| selectState == "业务恢复"||selectState == "业务终止";
-		if(timeCheck){
-			if($("#field0078").val() == ""){
-				alert("【计费需求】请填写计费时间");
+		//计费时间
+		var stateCheck =  selectState == "业务恢复"||selectState == "业务终止";
+		if(state == "业务暂停"){
+			if(!stateCheck){
+				alert("【状态变更】暂停的用户不能选择业务暂停或不填写");
 				return false;
 			}
-		}*/
+		}
         return true;
     };
 
@@ -986,10 +986,7 @@ function BGLT() {
 	 * 初始化计费时间
 	 */
 	BGLT.prototype.initJFSj = function(){
-		var check = $("#field0188").is(":checked");
-		check = check || $("#field0192").is(":checked");
-		check = check || $("#field0196").is(":checked");
-		check = check || $("#field0186").is(":checked");
+		var check = $("#field0196").is(":checked");
 		check = check || ($("#field0185_txt").val() !="");
 
 		if(check){
@@ -1004,16 +1001,12 @@ function BGLT() {
 	 * 校验计费时间
 	 */
 	BGLT.prototype.validateJFSj = function(){
-		var check = $("#field0188").is(":checked");
-		check = check || $("#field0192").is(":checked");
-		check = check || $("#field0196").is(":checked");
-		check = check || $("#field0186").is(":checked");
+		var check = $("#field0196").is(":checked");
 		check = check || ($("#field0185_txt").val() !="");
 
 		if(check){
 			if($("#field0104").val() == ""){
 				alert("【操作日期】请填写操作时间");
-				$("#field0104").focus();
 				return false;
 			}else{
 				var userTime = $("#field0104").val();
@@ -1022,8 +1015,9 @@ function BGLT() {
 					return false;
 				}
 				var arys= userTime.split('-');
-				var d = new Date(arys[0], arys[1], arys[2]);
-				var curDate=new Date();
+				var month = arys[1]-1;
+				var d = new Date(arys[0],month, arys[2]).format("yyyy-MM-dd");
+				var curDate=new Date().format("yyyy-MM-dd");
 				if(d < curDate){
 					alert("【操作日期】操作日期不能小于当前日期");
 					return false;
