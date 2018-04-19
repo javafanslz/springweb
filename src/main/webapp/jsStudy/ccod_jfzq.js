@@ -269,7 +269,7 @@ function JFZQ() {
 			$("#field0017").css('background','#FFFFFF');
 		}
 
-		if(shpt.indexOf("联通")!=-1){
+		if(shpt != "" && shpt.indexOf("联通")!=-1){
 			alert("【所属平台】直签工单不能选择联通合作客户！");
 			return false;
 		}

@@ -153,7 +153,7 @@ function YQLT() {
         //field0017
         var platForm = $("#field0016").html();
         var title = $("#subject").val();
-        if(platForm != "" && typeof(platForm)!="undefined"){
+        if(platForm != ""){
 
             if(title.indexOf("联通")!= -1){
                 if(platForm.indexOf("联通") ==-1){

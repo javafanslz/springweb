@@ -197,7 +197,7 @@ function JFLT() {
 			$("#field0017").css('background','#FFFFFF');
 		}
 
-		if(shpt.indexOf("联通")==-1){
+		if(shpt != "" && shpt.indexOf("联通")==-1){
 			alert("【所属平台】直签工单不能选择联通合作客户！");
 			return false;
 		}
@@ -361,6 +361,13 @@ function JFLT() {
 				return false;
 			}
 		}
+		//如果选择了单选按钮前面也必须填写
+		var check = typeof($("input[name=field0039]:checked").val()) != "undefined" ||$("input[name=field0039]:checked").val() != "" ;
+		if(check){
+			if(!$("#field0037").is(":checked")){
+				alert("【终端需求】请勾选有终端多选按钮");
+				return false;			}
+		}
 		return true;
 	};
 
@@ -395,16 +402,20 @@ function JFLT() {
 	 * @returns {boolean}
 	 */
 	JFLT.prototype.validate_thzf = function(){
-		var ivrsh = $("#field0094");
-		var ivrct = $("#field0095");
-		var zxsh = $("#field0096");
-		var zxct = $("#field0097");
-		var whsh = $("#field0098");
-		var whct = $("#field0099");
-		if(!ivrsh.is(":checked")&&!ivrct.is(":checked")&&!zxsh.is(":checked")&&!zxct.is(":checked")&&!whsh.is(":checked")&&!whct.is(":checked")){
-			alert("【通话资费】至少选择一个");
-			ivrsh.focus();
-			return false;
+		var dizhiRadio = $("input[name=field0090]:checked").val();
+		if(typeof (dizhiRadio) !="undefined" && dizhiRadio == "-1244957151022398219") {
+			var ivrsh = $("#field0094");
+			var ivrct = $("#field0095");
+			var zxsh = $("#field0096");
+			var zxct = $("#field0097");
+			var whsh = $("#field0098");
+			var whct = $("#field0099");
+			if (!ivrsh.is(":checked") && !ivrct.is(":checked") && !zxsh.is(":checked") && !zxct.is(":checked") && !whsh.is(":checked") && !whct.is(":checked")) {
+				alert("【通话资费】至少选择一个");
+				ivrsh.focus();
+				return false;
+			}
+			return true;
 		}
 		return true;
 	};
@@ -689,7 +700,9 @@ function JFLT() {
 	JFLT.prototype.radiocheck = function (){
 		$(":radio").each(function (){
 			if($(this).val()!=6404582267989804173 && $(this).val()!=9013198972058747339
-				&& $(this).val()!=-6362243583782008383 && $(this).val()!=-5891212324087446913){
+				&& $(this).val()!=-6362243583782008383 && $(this).val()!=-5891212324087446913
+				&& $(this).val()!=-3963605101769899438 && $(this).val()!=-1244957151022398219
+			){
 				$(this).attr('cs',false);
 
 				$(this).click(function(arg1){
@@ -697,7 +710,7 @@ function JFLT() {
 
 					if($(this).attr('cs')=='true'){
 						$(this).attr('cs','false');
-						$(this).removeAttr('checked');
+						$(this).attr('checked',false);
 					}else{ 
 						$("input[name="+_name+"]").each(function (){
 							$(this).attr('cs','false');
@@ -754,6 +767,31 @@ function JFLT() {
 		});
 	};
 
+	JFLT.prototype.dzh= function(){
+		var check = $("input[name=field0090]:checked").val();
+		if(typeof(check)!="undefined" && check == "-1244957151022398219"){
+			$("#field0091").attr("disabled",false);//通话资费
+			$("#field0101").attr("disabled",false);//含多少分钟
+			$("#field0088").attr("disabled",false);//含多少分钟
+			$("input[name=field0092]").attr("disabled",false);//整体优惠 平均每坐席
+			$("#field0093").attr("disabled",false);//超出部分按照
+		}else {
+			$("#field0091").attr("disabled", true);//通话资费
+			$("#field0101").attr("disabled", true);//含多少分钟
+			$("#field0088").attr("disabled", true);//含多少分钟
+			$("input[name=field0092]").attr("disabled", true);//整体优惠 平均每坐席
+			$("#field0093").attr("disabled", true);//超出部分按照
+			//值
+			$("#field0091").val("");//通话资费
+			$("#field0101").val("");//含多少分钟
+			$("#field0088").val("");//含多少分钟
+			$("#field0093").val("");//超出部分按照
+			$("input[name=field0092]").each(function (key, val) {
+				$(this).attr("checked", false);
+			});
+		}
+	};
+
 
 	/*表单上组件的基本信息*/	
 	JFLT.prototype.elements = {
@@ -791,17 +829,27 @@ function JFLT() {
 		"field0036":{id : "field0036",	type : "text",		name : "业务系统类型其他文本框",initDisable:true},
 		"field0037":{id : "field0037",	type : "checkbox",	name : "有终端"},
 		"field0038":{id : "field0038",	type : "checkbox",	name : "无终端"},
-		"field0039":{id : "field0039",	type : "radio",		name : "CCEA",	value:"8254392202341730514",initDisable:true},
-		"field0039":{id : "field0039",	type : "radio",		name : "ADT",	value:"-4305093821079142156",initDisable:true},
-		"field0039":{id : "field0039",	type : "radio",		name : "OXC",	value:"-7530274332352494683",initDisable:true},
-		"field0039":{id : "field0039",	type : "radio",		name : "其他",	value:"-1122618658103079534",initDisable:true},
+		"field0039":{id : "field0039",	type : "radio",		name : "CCEA",	value:"8254392202341730514"},
+		"field0039":{id : "field0039",	type : "radio",		name : "ADT",	value:"-4305093821079142156"},
+		"field0039":{id : "field0039",	type : "radio",		name : "OXC",	value:"-7530274332352494683"},
+		"field0039":{id : "field0039",	type : "radio",		name : "其他",	value:"-1122618658103079534"},
 		"field0040":{id : "field0040",	type : "text",		name : "终端需求-其他文本框",initDisable:true},
-};   
+
+		"field0091":{id : "field0091",	type : "text",		name : "终端需求-其他文本框",initDisable:true},
+		"field0088":{id : "field0088",	type : "text",		name : "终端需求-其他文本框",initDisable:true},
+		"field0101":{id : "field0101",	type : "text",		name : "终端需求-其他文本框",initDisable:true},
+		"field0092":{id : "field0092",	type : "radio",		name : "整体优惠",	value:"5015726088828177190",initDisable:true},
+		"field0092":{id : "field0092",	type : "radio",		name : "平均没坐席",	value:"-6682866882824746749",initDisable:true},
+		"field0093":{id : "field0093",	type : "text",		name : "终端需求-其他文本框",initDisable:true},
+
+		"field0090":{id : "field0090",	type : "radio"},
+	};
 /*事件注册*/
 	JFLT.prototype.events = {
-	"field0035":{event:"click",func:"ywxt"},
-	"field0037":{event:"click",func:"yzd"},
-	"field0039":{event:"click",func:"zdxq"},
+		"field0035":{event:"click",func:"ywxt"},
+		//"field0037":{event:"click",func:"yzd"},
+		"field0039":{event:"click",func:"zdxq"},
+		"field0090":{event:"click",func:"dzh"}
 };
 
 	JFLT.prototype.trs={};

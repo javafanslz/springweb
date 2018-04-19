@@ -58,7 +58,7 @@ function YQZQ() {
         var shptr = $("#field0008").parents("table");
         shptr.mouseleave(function(){
             //校验平台和选择的企业之间的关系
-            _yqzq.validatePlatform();
+           // _yqzq.validatePlatform();
         });
     };
     YQZQ.prototype.loadData = function(){
@@ -135,7 +135,7 @@ function YQZQ() {
         //field0017
         var platForm = $("#field0016").html();
         var title = $("#subject").val();
-        if(platForm != "" && typeof(platForm)!="undefined"){
+        if(platForm != ""){
             if(title.indexOf("联通")== -1){
                 if(platForm.indexOf("联通") !=-1){
                     alert("直签工单不能选择联通合作客户");

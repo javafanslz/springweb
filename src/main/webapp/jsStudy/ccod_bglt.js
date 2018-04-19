@@ -122,6 +122,7 @@ function BGLT() {
 		_bglt.initFWZFType();
         _bglt.initHFZF();
 		_bglt.initName();
+		_bglt.initJFSj();
 	};
     /**
      * 校验
@@ -160,6 +161,9 @@ function BGLT() {
 		if(!_bglt.validateName()){
 			return false;
 		}
+		if(!_bglt.validateJFSj()){
+			return false;
+		}
         return true;
     };
 
@@ -169,7 +173,7 @@ function BGLT() {
 	 */
 	BGLT.prototype.validatePT =function(){
 		var ptType = $("#field0019").html();
-		if(ptType.indexOf('联通') == -1){
+		if(ptType!= "" && ptType.indexOf('联通') == -1){
 			alert("【平台类型】联通变更工单只能选择联通合作平台");
 			return false;
 		}
@@ -190,7 +194,7 @@ function BGLT() {
                 return false;
             }
             if(state.indexOf("业务暂停")!=-1){
-                if(selectState == '' ||typeof(selectState == "undefined")){
+                if(selectState == ''){
                     alert("【状态变更】当前企业为业务暂停状态，进行操作前请选择要变更的状态");
                     return false;
                 }
@@ -204,14 +208,14 @@ function BGLT() {
                 }
             }
         }
-		//计费时间
+		/*//计费时间
 		var timeCheck = selectState == "业务暂停"|| selectState == "业务恢复"||selectState == "业务终止";
 		if(timeCheck){
 			if($("#field0078").val() == ""){
 				alert("【计费需求】请填写计费时间");
 				return false;
 			}
-		}
+		}*/
         return true;
     };
 
@@ -938,12 +942,12 @@ function BGLT() {
 		var check = $("#field0186").is(":checked");
 
 		if(check){
-			$("#field0012").attr("disabled",false);
-			$("#field0012").css('background','#FCDD8B');
+			$("#field0009").attr("disabled",false);
+			$("#field0009").css('background','#FCDD8B');
 		}else{
-			$("#field0012").attr("disabled",true);
-			$("#field0012").css('background','');
-			$("#field0012").html("");
+			$("#field0009").attr("disabled",true);
+			$("#field0009").css('background','');
+			//$("#field0012").html("");
 		}
 	};
 	/**
@@ -953,11 +957,63 @@ function BGLT() {
 		var check = $("#field0186").is(":checked");
 
 		if(check){
-			if($("#field0012").html() == ""){
-				alert("【合同变更】请填写合同编号");
-				$("#field0012").focus();
+			if($("#field0009").html() == ""){
+				alert("【企业名称】请填写企业名称");
+				$("#field0009").focus();
 				return false;
 			}
+		}
+		return true;
+	};
+
+	/**
+	 * 初始化计费时间
+	 */
+	BGLT.prototype.initJFSj = function(){
+		var check = $("#field0188").is(":checked");
+		check = check || $("#field0192").is(":checked");
+		check = check || $("#field0196").is(":checked");
+		check = check || $("#field0186").is(":checked");
+		check = check || ($("#field0185_txt").val() !="");
+
+		if(check){
+			$("#field0104").attr("disabled",false);
+			$("#field0104").css('background','#FCDD8B');
+		}else{
+			$("#field0104").attr("disabled",true);
+			$("#field0104").css('background','');
+		}
+	};
+	/**
+	 * 校验计费时间
+	 */
+	BGLT.prototype.validateJFSj = function(){
+		var check = $("#field0188").is(":checked");
+		check = check || $("#field0192").is(":checked");
+		check = check || $("#field0196").is(":checked");
+		check = check || $("#field0186").is(":checked");
+		check = check || ($("#field0185_txt").val() !="");
+
+		if(check){
+			if($("#field0104").val() == ""){
+				alert("【操作日期】请填写操作时间");
+				$("#field0104").focus();
+				return false;
+			}else{
+				var userTime = $("#field0104").val();
+				if(!_bglt.until_valiTime(userTime)){
+					alert("【操作日期】操作日期格式不正确");
+					return false;
+				}
+				var arys= userTime.split('-');
+				var d = new Date(arys[0], arys[1], arys[2]);
+				var curDate=new Date();
+				if(d < curDate){
+					alert("【操作日期】操作日期不能小于当前日期");
+					return false;
+				}
+			}
+			return true;
 		}
 		return true;
 	};
@@ -1152,5 +1208,15 @@ function BGLT() {
 			isPhoneNum = true;
 		}
 		return isPhoneNum;
+	};
+
+	BGLT.prototype.until_valiTime = function(tel) {//校验时间格式
+		var isTime = false;
+		// 手机正则表达式
+		var mp_reg = /^(\d{4})-(0\d{1}|1[0-2])-(0\d{1}|[12]\d{1}|3[01])$/;
+		if (mp_reg.test(tel)) {
+			isTime = true;
+		}
+		return isTime;
 	};
 }
