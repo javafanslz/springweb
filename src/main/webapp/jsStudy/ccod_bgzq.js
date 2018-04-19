@@ -132,6 +132,9 @@ function BGZQ() {
 		if(!_bgzq.validatePT()){
 			return false;
 		}
+		if(!_bgzq.validateFZQD()){
+			return false;
+		}
         if(!_bgzq.validateState()){
             return false;
         }
@@ -176,9 +179,22 @@ function BGZQ() {
 	 * @returns {boolean}
 	 */
 	BGZQ.prototype.validatePT =function(){
-		var ptType = $("#field0017").val();
-		if(ptType != "" && ptType.indexOf('联通') != -1){
+		var ptType = $("#field0014").html();
+		if(ptType != "" && ptType.indexOf('联通合作运营平台') != -1){
 			alert("【平台类型】直签变更工单不能选择联通合作平台");
+			return false;
+		}
+		return true;
+	};
+
+	/**
+	 * 平台校验
+	 * @returns {boolean}
+	 */
+	BGZQ.prototype.validateFZQD =function(){
+		var qudao = $("#field0017").html();
+		if(qudao!= "" && qudao.indexOf('直签客户') == -1){
+			alert("【发展渠道】直签工单只能选择直签发展客户");
 			return false;
 		}
 		return true;

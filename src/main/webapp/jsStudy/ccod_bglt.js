@@ -131,6 +131,9 @@ function BGLT() {
 		if(!_bglt.validatePT()){
 			return false;
 		}
+        if(!_bglt.validateFZQD()){
+            return false;
+        }
         if(!_bglt.validateState()){
             return false;
         }
@@ -172,13 +175,26 @@ function BGLT() {
 	 * @returns {boolean}
 	 */
 	BGLT.prototype.validatePT =function(){
-		var ptType = $("#field0019").html();
-		if(ptType!= "" && ptType.indexOf('联通') == -1){
+		var ptType = $("#field0014").html();
+		if(ptType!= "" && ptType.indexOf('联通合作运营平台') == -1){
 			alert("【平台类型】联通变更工单只能选择联通合作平台");
 			return false;
 		}
 		return true;
 	};
+
+    /**
+     * 平台校验
+     * @returns {boolean}
+     */
+    BGLT.prototype.validateFZQD =function(){
+        var qudao = $("#field0017").html();
+        if(qudao!= "" && qudao.indexOf('直签客户') != -1){
+            alert("【发展渠道】联通工单不能选择直签发展的客户");
+            return false;
+        }
+        return true;
+    };
 
     /**
      * 校验企业当前状态
@@ -957,7 +973,7 @@ function BGLT() {
 		var check = $("#field0186").is(":checked");
 
 		if(check){
-			if($("#field0009").html() == ""){
+			if($("#field0009").val() == ""){
 				alert("【企业名称】请填写企业名称");
 				$("#field0009").focus();
 				return false;
