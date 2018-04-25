@@ -1,7 +1,7 @@
 $(document).ready(function() {
     try {
         var title = $("#subject").val();
-        if (title.indexOf("-延期工单-直签") != -1) {
+        if (title.indexOf("延期工单-直签") != -1) {
             var yqzq = new YQZQ();
             qnObjs.yqzq = yqzq;
             yqzq.initPage(yqzq);

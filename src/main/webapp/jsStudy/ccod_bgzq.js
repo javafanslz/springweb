@@ -5,7 +5,7 @@
 $(document).ready(function() {
 	try {
 		var title = $("#subject").val();
-		if (title && title.indexOf("业务变test更单-直签") != -1) {
+		if (title && title.indexOf("业务变更单-直签") != -1) {
 			var bgzq = new BGZQ();
 			qnObjs.bgzq = bgzq;
 			bgzq.initPage(bgzq);

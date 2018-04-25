@@ -1,7 +1,7 @@
 $(document).ready(function() {
     try {
         var title = $("#subject").val();
-        if (title && title.indexOf("试test用工单-直签") != -1) {
+        if (title && title.indexOf("试用工单-直签") != -1) {
             var syzq = new SYZQ();
             qnObjs.syzq = syzq;
             syzq.initPage();

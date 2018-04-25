@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	try {
 		var title = $("#subject").val();
-		if (title && title.indexOf("上线计test费工单-直签") != -1) {
+		if (title && title.indexOf("上线计费工单-直签") != -1) {
 			var jfzq = new JFZQ();
 			qnObjs.jfzq = jfzq;
 			jfzq.initPage(jfzq);
