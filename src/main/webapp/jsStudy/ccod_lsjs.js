@@ -71,7 +71,7 @@ function LSJS() {
         }
         var checkedValue =$("input[name=field0050]:checked").val();
 
-        if(checkedValue == '7759575762758486444'){
+        if(checkedValue == '-177222411513543723'){
             var cong = $("#field0012").val();
             var zhi = $("#field0013").val();
             if(this.isEmptyStr(cong)||this.isEmptyStr(zhi)){
@@ -83,7 +83,7 @@ function LSJS() {
                 return false;
             }
         }
-        if(checkedValue == '-8511638806594959112'){
+        if(checkedValue == '8840379334795086112'){
             var cong = $("#field0012").val();
             var zhi = $("#field0013").val();
             var reason = $("#field0051").val();
@@ -127,7 +127,7 @@ function LSJS() {
      */
     LSJS.prototype.linshi =function(){
         var checkedValue = $("input[name=field0050]:checked").val();
-        if(checkedValue =='7759575762758486444'){
+        if(checkedValue =='-177222411513543723'){
            /* //临时备案
             $("#field0012").attr("disabled",false);
             $("#field0013").attr("disabled",false);
@@ -190,8 +190,8 @@ function LSJS() {
 
 
     LSJS.prototype.elements = {
-        "field0050": {id: "field0050", type: "radio", name: "临时备案", value: "7759575762758486444"},
-        "field0050": {id: "field0050", type: "radio", name: "长期备案", value: "-8511638806594959112"},
+        "field0050": {id: "field0050", type: "radio", name: "临时备案", value: "-177222411513543723"},
+        "field0050": {id: "field0050", type: "radio", name: "长期备案", value: "8840379334795086112"},
         "field0012" : {id : "field0012",type : "text",name : "临时备案从"},
         "field0013" : {id : "field0013",type : "text",name : "临时备案至"},
         "field0051" : {id : "field0051",type : "text",name : "长期备案原因",initDisable:true}

@@ -1045,7 +1045,7 @@ function BGZQ() {
                 return false;
             }
             var haoMaValue = $("input[name=field0195]:checked").val();
-            if(haoMa && haoMaValue == '8634992771833285158'){
+            if(haoMa && haoMaValue == '-3117217436981900318'){
                 var telResource = $("#field0196_span").children(":first").next();
                 var agentTelChilds = telResource.children();
                 if(agentTelChilds.length ==0 ){
